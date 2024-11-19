@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import Navbar from '@/components/Navbar';
 
+
 export default async function Layout(props: {
   children: React.ReactNode;
   params: Promise<{ locale: string }>;
@@ -20,7 +21,7 @@ export default async function Layout(props: {
     <>
       {/* <DemoBanner /> */}
         <Navbar />
-        <div className="py-5 text-xl [&_p]:my-6">{props.children}</div>
+        <div className="">{props.children}</div>
     </>
   );
 }
