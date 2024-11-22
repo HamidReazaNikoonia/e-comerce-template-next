@@ -6,7 +6,7 @@ export default function CoursesCardSection() {
 return (
 <>
     {/* Header */}
-    <div className='flex justify-between w-full pb-8'>
+    <div className='flex justify-between w-full pb-8 px-4'>
 
         <button
             className="bg-transparent hover:bg-blue-500 text-white font-medium hover:text-white py-2 px-4 border border-white hover:border-transparent rounded-md inline-flex items-center">

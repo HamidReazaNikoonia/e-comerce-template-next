@@ -8,6 +8,7 @@ import ServiceCardItem from '@/components/Card/ServiceCardItem';
 // sections
 import CoursesCardSection from '../../../sections/home/CoursesCardSection';
 import ServiceSwiper from '../../../sections/home/ServiceCardSection';
+import ThumbsSwiperImageGallery from '../../../sections/home/ThumbsSwiperImageGallery';
 
 type IIndexProps = {
   params: Promise<{ locale: string }>;
@@ -75,6 +76,12 @@ export default async function Index(props: IIndexProps) {
       {/* Courses Card Section */}
       <div className="container mx-auto py-20">
         <CoursesCardSection />
+      </div>
+
+
+      {/* Image Gallery Section */}
+      <div className="container mx-auto py-20">
+        <ThumbsSwiperImageGallery />
       </div>
     </div>
   );

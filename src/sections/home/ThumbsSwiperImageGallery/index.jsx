@@ -1,12 +1,12 @@
 import React from 'react'
 import { ChevronsLeft, ClipboardList } from 'lucide-react';
-import ServiceSwiper from '@/components/swiper/ServiceSwiper';
+import ImageGallerySwiper from '@/components/swiper/ImageGallerySwiper'
 
-export default function ServiceCardSection() {
+export default function ThumbsSwiperImageGallery() {
 return (
 <>
     {/* Header */}
-    <div className='flex justify-between w-full pb-2 px-4 md:px-0'>
+    <div className='flex justify-between w-full pb-8 px-4 md:px-0'>
 
         <button
             className="bg-transparent hover:bg-blue-500 text-white font-medium hover:text-white py-2 px-4 border border-white hover:border-transparent rounded-md inline-flex items-center">
@@ -15,11 +15,15 @@ return (
         </button>
         <div className='py-2 inline-flex items-center  text-lg text-white font-semibold'>
         
-          خدمات تخصصی 
+             گالری تصاویر 
           <ClipboardList className='ml-3' />
         </div>
     </div>
-    <ServiceSwiper />
+    <div className="w-full">
+    <ImageGallerySwiper />
+   
+    </div>
+    
 </>
 )
 }
