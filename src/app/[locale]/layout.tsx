@@ -1,10 +1,14 @@
 import type { Metadata } from 'next';
-import { DemoBadge } from '@/components/DemoBadge';
+// import { DemoBadge } from '@/components/DemoBadge';
 import { routing } from '@/libs/i18nNavigation';
 import { notFound } from 'next/navigation';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, setRequestLocale } from 'next-intl/server';
 import localFont from 'next/font/local'
+
+// components
+import Footer from '@/templates/Footer';
+
 import '@/styles/global.css';
 
 
@@ -68,6 +72,9 @@ export default async function RootLayout(props: {
           {props.children}
 
           {/* <DemoBadge /> */}
+
+          {/* Footer */}
+            <Footer />
         </NextIntlClientProvider>
       </body>
     </html>
