@@ -10,6 +10,8 @@ import CoursesCardSection from '../../../sections/home/CoursesCardSection';
 import ServiceSwiper from '../../../sections/home/ServiceCardSection';
 import ThumbsSwiperImageGallery from '../../../sections/home/ThumbsSwiperImageGallery';
 import MultimediaTabsPortfolio from '../../../sections/home/MultimediaTabsPortfolio';
+import FAQSection from '../../../sections/home/FAQ';
+
 
 
 type IIndexProps = {
@@ -90,6 +92,12 @@ export default async function Index(props: IIndexProps) {
       {/* Multimedia Video Tabs Section */}
       <div className="container mx-auto py-20">
         <MultimediaTabsPortfolio />
+      </div>
+
+
+       {/* FAQs Section */}
+       <div className="container mx-auto py-20">
+        <FAQSection />
       </div>
     </div>
   );
