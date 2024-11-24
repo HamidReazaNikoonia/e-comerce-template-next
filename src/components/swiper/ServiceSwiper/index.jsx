@@ -23,7 +23,19 @@ export default function ServiceSwiper() {
   return (
     <>
       <Swiper
-        slidesPerView={4}
+        breakpoints={{
+          // Mobile screens (less than 700px)
+          0: {
+            slidesPerView: 2,
+            spaceBetween: 10, // Optional: Reduce spacing for smaller screens
+          },
+          
+          // Screens 700px and wider
+          800: {
+            slidesPerView: 4,
+            spaceBetween: 20, // Regular spacing
+          },
+        }}
         centerInsufficientSlides
         centeredSlides
         initialSlide={3}
