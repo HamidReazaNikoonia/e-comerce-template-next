@@ -28,9 +28,9 @@ const data = [
 
 export default function FAQSection() {
   return (
-    <div className='flex flex-row-reverse'>
+    <div className='flex flex-col md:flex-row-reverse'>
 
-      <div className="flex flex-col text-right text-white items-center justify-center w-2/6">
+      <div className="flex flex-col text-right text-white items-center justify-center w-full md:w-2/6">
         <h3 className=' font-bold text-3xl mb-12'>
           سوالات متداول کاربران
         </h3>
@@ -39,7 +39,7 @@ export default function FAQSection() {
           مواردی که قبلا از ما پرسیده شده است
         </h5>
 
-        <img decoding="async" width="800" height="566" src="https://aisun-ci.ir/wp-content/uploads/2024/07/سوالات-متداول.png" className="w-full inline-block " style={{ verticalAlign: 'middle' }} alt="" srcSet="https://aisun-ci.ir/wp-content/uploads/2024/07/سوالات-متداول.png 800w, https://aisun-ci.ir/wp-content/uploads/2024/07/سوالات-متداول-300x212.png 300w, https://aisun-ci.ir/wp-content/uploads/2024/07/سوالات-متداول-768x543.png 768w, https://aisun-ci.ir/wp-content/uploads/2024/07/سوالات-متداول-600x425.png 600w, https://aisun-ci.ir/wp-content/uploads/2024/07/سوالات-متداول-64x45.png 64w" sizes="(max-width: 800px) 100vw, 800px" loading="eager" />
+        <img decoding="async" width="800" height="566" src="https://aisun-ci.ir/wp-content/uploads/2024/07/سوالات-متداول.png" className="w-full hidden md:inline-block " style={{ verticalAlign: 'middle' }} alt="" srcSet="https://aisun-ci.ir/wp-content/uploads/2024/07/سوالات-متداول.png 800w, https://aisun-ci.ir/wp-content/uploads/2024/07/سوالات-متداول-300x212.png 300w, https://aisun-ci.ir/wp-content/uploads/2024/07/سوالات-متداول-768x543.png 768w, https://aisun-ci.ir/wp-content/uploads/2024/07/سوالات-متداول-600x425.png 600w, https://aisun-ci.ir/wp-content/uploads/2024/07/سوالات-متداول-64x45.png 64w" sizes="(max-width: 800px) 100vw, 800px" loading="eager" />
       </div>
 
 
@@ -56,11 +56,11 @@ export default function FAQSection() {
                     <svg fill="none" height="24" shapeRendering="geometricPrecision" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path>
                     </svg>
                   </span>
-                  <span className=' text-sm'>
+                  <span className=' text-xs text-right'>
                     {item.question}
                   </span>
                 </summary>
-                <p className="text-neutral-600 mt-3 group-open:animate-fadeIn text-sm text-right leading-6">
+                <p className="text-neutral-600 mt-3  group-open:animate-fadeIn text-xs text-right leading-6">
                   {item.answer}
                 </p>
               </details>
