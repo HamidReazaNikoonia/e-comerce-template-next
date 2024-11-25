@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from "react";
-import { X, Search, ShoppingBasket, Menu } from 'lucide-react';
+import { X, Search, ShoppingBasket, Menu, ChevronDown } from 'lucide-react';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -84,8 +84,12 @@ const Navbar = () => {
                   onMouseEnter={handleMouseEnter}
                   onMouseLeave={handleMouseLeave}
                 >
+                  <span className=" inline-block text-xs">
+                  <ChevronDown className=" w-3 h-3 mr-1" />
+                  </span>
                   خدمات
                   {/* Dropdown Menu */}
+                  
                   <ul
                     className={`absolute left-0 mt-2 bg-gray-700 rounded shadow-lg w-40 transition-opacity duration-200 ${
                       dropdownOpen ? "opacity-100 visible" : "opacity-0 invisible"
