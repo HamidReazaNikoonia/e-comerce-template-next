@@ -46,9 +46,11 @@
     "react": "19.0.0-rc-66855b96-20241106",
     "react-dom": "19.0.0-rc-66855b96-20241106",
     "react-hook-form": "^7.53.2",
+    "react-range-slider-input": "^3.0.7",
     "react-tilt": "^1.0.2",
     "swiper": "^11.1.15",
-    "zod": "^3.23.8"
+    "zod": "^3.23.8",
+    "zustand": "^5.0.1"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^3.9.1",

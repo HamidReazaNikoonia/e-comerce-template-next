@@ -22,7 +22,7 @@ export default function ProductListHeader() {
             <ChevronDown size={18} className='ml-2'  />
           </button>
 
-          <ul onClick={() => setSortDropDownOpen(!sortDropDownOpen)} id="dropdownMenu" className={clsx('absolute divide-gray-600 text-center block shadow-[0_8px_19px_-7px_rgba(6,81,237,0.2)] bg-gray-800 z-[1000] min-w-full w-max divide-y max-h-96 overflow-auto', { hidden: sortDropDownOpen })}  >
+          <ul onClick={() => setSortDropDownOpen(!sortDropDownOpen)} id="dropdownMenu" className={clsx('absolute divide-gray-600 text-center block shadow-[0_8px_19px_-7px_rgba(6,81,237,0.2)] bg-gray-800 z-[1000] min-w-full w-max divide-y max-h-96 overflow-auto', { hidden: !sortDropDownOpen })}  >
             <li className='py-2 px-5 hover:bg-gray-700 text-gray-400 text-xs cursor-pointer'>
                 قیمت
             </li>

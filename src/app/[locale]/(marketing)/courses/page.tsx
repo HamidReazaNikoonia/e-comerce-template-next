@@ -1,6 +1,7 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 
-import ProductListHeader from '@/sections/productList/ProductListHeader';
+import ProductListHeader from '@/sections/courses/ProductListHeader';
+import ProductList from '@/sections/courses/ProductList';
 
 
 type IAboutProps = {
@@ -32,9 +33,13 @@ export default async function About(props: IAboutProps) {
 
   return (
     <div className='overflow-hidden pt-16 bg-black text-white min-h-screen'>
-        <div className="container mx-auto py-20">
+        <div className="container mx-auto pt-20">
           {/* Header */}
           <ProductListHeader />
+        </div>
+
+        <div className="px-4 pt-4">
+          <ProductList />
         </div>
     </div>
   );

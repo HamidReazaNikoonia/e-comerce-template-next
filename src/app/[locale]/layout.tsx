@@ -10,6 +10,7 @@ import localFont from 'next/font/local'
 import Footer from '@/templates/Footer';
 
 import '@/styles/global.css';
+import 'react-range-slider-input/dist/style.css';
 
 
 // Font files can be colocated inside of `pages`
