@@ -1,5 +1,7 @@
-import Image from 'next/image';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
+
+import ProductListHeader from '@/sections/productList/ProductListHeader';
+
 
 type IAboutProps = {
   params: Promise<{ slug: string; locale: string }>;
@@ -25,29 +27,15 @@ export default async function About(props: IAboutProps) {
     namespace: 'About',
   });
 
+
+
+
   return (
-    <>
-      <p>{t('about_paragraph')}</p>
-
-      <div className="mt-2 text-center text-sm">
-        {`${t('translation_powered_by')} `}
-        <a
-          className="text-blue-700 hover:border-b-2 hover:border-blue-700"
-          href="https://l.crowdin.com/next-js"
-        >
-          Crowdin
-        </a>
-      </div>
-
-      <a href="https://l.crowdin.com/next-js">
-        <Image
-          className="mx-auto mt-2"
-          src="/assets/images/crowdin-dark.png"
-          alt="Crowdin Translation Management System"
-          width={128}
-          height={26}
-        />
-      </a>
-    </>
+    <div className='overflow-hidden pt-16 bg-black text-white min-h-screen'>
+        <div className="container mx-auto py-20">
+          {/* Header */}
+          <ProductListHeader />
+        </div>
+    </div>
   );
 };

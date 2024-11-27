@@ -1,3 +1,4 @@
+import { index } from 'drizzle-orm/mysql-core'
 import React from 'react'
 // import { ChevronsLeft, ClipboardList } from 'lucide-react';
 
@@ -47,8 +48,8 @@ export default function FAQSection() {
 
         <div className="grid divide-y divide-neutral-200 px-6 mt-8">
 
-          {data && data.map(item => (
-            <div className="py-5">
+          {data && data.map((item, index) => (
+            <div key={index} className="py-5">
               <details className="group">
                 <summary className="flex justify-between items-center font-medium cursor-pointer list-none">
 
