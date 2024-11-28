@@ -3,7 +3,7 @@ interface TagSelectorProps {
   onSelectTags: (selectedTags: string[]) => void
 }
 
-const availableTags = ['electronics', 'clothing', 'home', 'gadgets', 'accessories', 'decor', 'computers', 'fashion']
+const availableTags = ['هنری', 'البسه', 'اجسام', 'فیلم', 'آموزشی', 'ورزشی']
 
 export default function TagSelector({ onSelectTags }: TagSelectorProps) {
   const handleTagChange = (tag: string, isChecked: boolean) => {
@@ -15,17 +15,17 @@ export default function TagSelector({ onSelectTags }: TagSelectorProps) {
   }
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-2 flex flex-col items-end pt-4">
       {availableTags.map(tag => (
-        <div key={tag} className="flex items-center">
+        <div key={tag} className="flex items-center pt-2">
+          <label htmlFor={tag} className="mr-3 text-xs">
+            {tag}
+          </label>
           <input
             type="checkbox"
             id={tag}
             onChange={(checked) => handleTagChange(tag, checked as unknown as boolean)}
           />
-          <label htmlFor={tag} className="ml-2 text-sm">
-            {tag}
-          </label>
         </div>
       ))}
     </div>

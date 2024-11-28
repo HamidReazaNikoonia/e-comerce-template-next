@@ -38,10 +38,10 @@ export default function FilterAndSearch({ onFilter }: FilterAndSearchProps) {
       <div className="p-4 space-y-4 card_content">
         <SearchComponent onSearch={handleSearch} />
         
-        <Collapsible>
-          <CollapsibleTrigger className="flex items-center justify-between w-full p-2 font-medium text-left border rounded-md hover:bg-gray-100">
-            Product Categories
-            <ChevronDown className="w-4 h-4" />
+        <Collapsible className='pt-4'>
+          <CollapsibleTrigger className="flex text-sm items-center justify-between text-right w-full p-2 font-medium border-b">
+          <ChevronDown className="w-4 h-4" />
+            دسته بندی محصولات 
           </CollapsibleTrigger>
           <CollapsibleContent className="mt-2">
             <TagSelector onSelectTags={handleTagSelect} />
@@ -49,9 +49,9 @@ export default function FilterAndSearch({ onFilter }: FilterAndSearchProps) {
         </Collapsible>
 
         <Collapsible>
-          <CollapsibleTrigger className="flex items-center justify-between w-full p-2 font-medium text-left border rounded-md hover:bg-gray-100">
-            Price Range
-            <ChevronDown className="w-4 h-4" />
+          <CollapsibleTrigger className="flex items-center justify-between w-full p-2  mt-8 font-medium text-right text-sm border-b">
+          <ChevronDown className="w-4 h-4" />
+            قیمت   
           </CollapsibleTrigger>
           <CollapsibleContent className="mt-2">
             <PriceRangeSlider onRangeChange={handlePriceRangeChange} />

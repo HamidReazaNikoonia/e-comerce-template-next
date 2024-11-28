@@ -7,7 +7,7 @@ interface CollapsibleProps {
   className?: any
 }
 
-export const Collapsible: React.FC<CollapsibleProps> = ({ children, defaultOpen = false, className }) => {
+export const Collapsible: React.FC<CollapsibleProps> = ({ children, defaultOpen = true, className }) => {
   const [isOpen, setIsOpen] = useState(defaultOpen)
 
   return (

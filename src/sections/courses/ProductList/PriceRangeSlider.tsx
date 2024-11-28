@@ -20,15 +20,16 @@ export default function PriceRangeSlider({ onRangeChange }: PriceRangeSliderProp
 
   return (
     <div className="space-y-2">
-      <div className="flex justify-between">
-        <Label htmlFor="price-range" className="text-sm font-medium">
-          Price Range:
-        </Label>
-        <span className="text-sm font-medium">
-          ${range[0]} - ${range[1]}
+      <div className="flex justify-between text-sm pt-2">
+        
+        <span className="text-xs font-medium">
+          تومان &nbsp;{range[0]} - تومان&nbsp;{range[1]}
         </span>
+        <Label htmlFor="price-range" className="text-xs font-medium">
+          بازه ی قیمت
+        </Label>
       </div>
-      <div>
+      <div className='pt-4'>
       <RangeSlider defaultValue={[0, 50]} onInput={handleRangeChange} />
       </div>
     </div>
