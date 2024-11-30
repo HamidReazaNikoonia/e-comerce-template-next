@@ -23,6 +23,7 @@ export default function TagSelector({ onSelectTags }: TagSelectorProps) {
           </label>
           <input
             type="checkbox"
+            className="form-checkbox h-4 w-4 bg-gray-600"
             id={tag}
             onChange={(checked) => handleTagChange(tag, checked as unknown as boolean)}
           />

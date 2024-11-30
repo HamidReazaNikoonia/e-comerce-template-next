@@ -8,26 +8,42 @@ type IAboutProps = {
   params: Promise<{ slug: string; locale: string }>;
 };
 export async function generateMetadata(props: IAboutProps) {
-  const { locale } = await props.params;
-  const t = await getTranslations({
-    locale,
-    namespace: 'About',
-  });
+  // const { locale } = await props.params;
+  // const t = await getTranslations({
+  //   locale,
+  //   namespace: 'courses',
+  // });
 
-  return {
-    title: t('meta_title'),
-    description: t('meta_description'),
-  };
+  // return {
+  //   title: t('meta_title'),
+  //   description: t('meta_description'),
+  // };
 }
 
-export default async function About(props: IAboutProps) {
-  const { locale } = await props.params;
-  setRequestLocale(locale);
-  const t = await getTranslations({
-    locale,
-    namespace: 'About',
+
+const fetchRepo = async () => {
+  const res = await fetch('http://localhost:9000/v1/product', {
+    next: { revalidate: 60 }, // Enables ISR (Incremental Static Regeneration)
   });
 
+  if (!res.ok) {
+    throw new Error('Failed to fetch data');
+  }
+
+  return res.json();
+};
+
+
+export default async function About(props: IAboutProps) {
+  // const { locale } = await props.params;
+  // setRequestLocale(locale);
+  // const t = await getTranslations({
+  //   locale,
+  //   namespace: 'About',
+  // });
+
+  const productsData = await fetchRepo();
+  console.log(productsData.data.products)
 
 
 
@@ -39,7 +55,7 @@ export default async function About(props: IAboutProps) {
         </div>
 
         <div className="px-4 pt-4">
-          <ProductList />
+          <ProductList productsData={productsData?.data} />
         </div>
     </div>
   );
