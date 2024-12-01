@@ -1,5 +1,7 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useQuery } from "@tanstack/react-query";
+import {getProductsRequest} from '@/API/product';
 import FilterAndSearch from './FilterAndSearch';
 import List from './List';
 import {IProduct} from '@/types/Product';
@@ -36,17 +38,57 @@ import {IProduct} from '@/types/Product';
 
 // ]
 
+interface FilterParams {
+  keyword?: string;
+  sort?: string;
+  category?: string;
+  brand?: string;
+  price_from?: number;
+  price_to?: number;
+}
+
+
 export default function ProductList({productsData}: {productsData: {count: number, products: IProduct[]}}) {
-  const [filteredProducts, setFilteredProducts] = useState(productsData?.products)
+  const [filteredProducts, setFilteredProducts] = useState(productsData?.products);
+  const [filterParams, setFilterParams] = useState<FilterParams | null>(null);
+
+  const { data, isLoading, isError, isSuccess } = useQuery({
+    queryFn: async () => await getProductsRequest(filterParams || {}),
+    enabled: filterParams !== null,
+    queryKey: ["product", filterParams], //Array according to Documentation
+  });
+
+  useEffect(() => {
+    console.log({dataInUseEffect: data});
+    if(data?.data?.products && isSuccess) {
+      setFilteredProducts(data?.data?.products)
+    }
+  }, [data, isSuccess])
+
+
+  // const handleFilter = (searchTerm: string, selectedTags: string[], priceRange: [number, number]) => {
+  //   // const filtered = productsData.products.filter(product => 
+  //   //   product.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
+  //   //   (selectedTags.length === 0 || selectedTags.some(tag => product.tags.includes(tag))) &&
+  //   //   product.price >= priceRange[0] && product.price <= priceRange[1]
+  //   // )
+  //   setFilterParams()
+  //   setFilteredProducts(filtered)
+  // }
 
   const handleFilter = (searchTerm: string, selectedTags: string[], priceRange: [number, number]) => {
-    const filtered = productsData.products.filter(product => 
-      product.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
-      (selectedTags.length === 0 || selectedTags.some(tag => product.tags.includes(tag))) &&
-      product.price >= priceRange[0] && product.price <= priceRange[1]
-    )
-    setFilteredProducts(filtered)
-  }
+    const selectedTagString = selectedTags.map(tt => {
+      return tt._id.toString()
+    })
+    const newFilterParams: FilterParams = {
+      keyword: searchTerm,
+      category: selectedTagString.join(','), // Assuming tags are categories
+      // price_from: priceRange[0],
+      // price_to: priceRange[1],
+    };
+    setFilterParams(newFilterParams);
+    console.log({selectedTagString})
+  };
 
   
   return (

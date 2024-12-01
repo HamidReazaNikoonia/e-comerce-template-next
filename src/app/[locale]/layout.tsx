@@ -9,6 +9,9 @@ import localFont from 'next/font/local'
 // components
 import Footer from '@/templates/Footer';
 
+// Provider
+import ReactQueryProvider from '@/provider/ReactQueryProvider';
+
 import '@/styles/global.css';
 import 'react-range-slider-input/dist/style.css';
 
@@ -66,6 +69,7 @@ export default async function RootLayout(props: {
   return (
     <html lang={locale}>
       <body className={myFont.className} suppressHydrationWarning>
+        <ReactQueryProvider>
         <NextIntlClientProvider
           locale={locale}
           messages={messages}
@@ -77,6 +81,7 @@ export default async function RootLayout(props: {
           {/* Footer */}
             <Footer />
         </NextIntlClientProvider>
+        </ReactQueryProvider>
       </body>
     </html>
   );
