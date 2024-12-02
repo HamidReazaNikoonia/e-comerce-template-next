@@ -82,9 +82,10 @@ export default function ProductList({productsData}: {productsData: {count: numbe
     })
     const newFilterParams: FilterParams = {
       keyword: searchTerm,
-      category: selectedTagString.join(','), // Assuming tags are categories
-      // price_from: priceRange[0],
-      // price_to: priceRange[1],
+      category: selectedTagString.join(','),
+      ...(!!priceRange && {price_from: priceRange[0] }),
+      ...(!!priceRange && {price_to: priceRange[1] }), // Assuming tags are categories
+      
     };
     setFilterParams(newFilterParams);
     console.log({selectedTagString})
@@ -96,7 +97,7 @@ export default function ProductList({productsData}: {productsData: {count: numbe
       <div className="w-full md:w-3/4">
           <List products={filteredProducts} />
         </div>
-        <div className="w-full md:w-1/4 bg-gray-800 rounded-xl pb-6 pt-4" style={{maxHeight: '650px'}}>
+        <div className="w-full order-first md:order-last mb-12 md:mb-0 md:w-1/4 bg-gray-800 rounded-xl pb-6 pt-4" style={{maxHeight: '650px'}}>
           <FilterAndSearch onFilter={handleFilter} />
         </div>
       </div>

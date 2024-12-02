@@ -16,16 +16,18 @@ interface FilterAndSearchProps {
 export default function FilterAndSearch({ onFilter }: FilterAndSearchProps) {
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedTags, setSelectedTags] = useState<string[]>([])
-  const [priceRange, setPriceRange] = useState<[number, number]>([0, 100])
+  const [priceRange, setPriceRange] = useState<[number, number] | null>(null)
 
   const handleSearch = (term: string) => {
     setSearchTerm(term)
-    onFilter(term, selectedTags, priceRange)
+    const priceFilter = !!priceRange ? priceRange : null
+    onFilter(term, selectedTags, priceFilter)
   }
 
   const handleTagSelect = (tags: string[]) => {
     setSelectedTags(tags)
-    onFilter(searchTerm, tags, priceRange)
+    const priceFilter = !!priceRange ? priceRange : null
+    onFilter(searchTerm, tags, priceFilter)
   }
 
   const handlePriceRangeChange = (range: [number, number]) => {

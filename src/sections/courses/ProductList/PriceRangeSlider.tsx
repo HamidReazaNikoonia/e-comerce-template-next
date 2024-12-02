@@ -9,13 +9,13 @@ interface PriceRangeSliderProps {
 }
 
 export default function PriceRangeSlider({ onRangeChange }: PriceRangeSliderProps) {
-  const [range, setRange] = useState<[number, number]>([0, 50])
+  const [range, setRange] = useState<[number, number]>([0, 500000])
 
   const handleRangeChange = (newRange: number[]) => {
     //@ts-ignore
     const updatedRange: [number, number] = [newRange[0], newRange[1]]
     setRange(updatedRange)
-    onRangeChange(updatedRange)
+    // onRangeChange(updatedRange)
   }
 
   return (
@@ -30,7 +30,7 @@ export default function PriceRangeSlider({ onRangeChange }: PriceRangeSliderProp
         </Label>
       </div>
       <div className='pt-4'>
-      <RangeSlider defaultValue={[0, 50]} onInput={handleRangeChange} />
+      <RangeSlider min={0} max={500000} defaultValue={[0, 500000]} onInput={handleRangeChange} onThumbDragEnd={() => onRangeChange(range)} />
       </div>
     </div>
   )
