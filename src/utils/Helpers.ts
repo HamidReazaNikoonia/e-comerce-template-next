@@ -26,3 +26,11 @@ export const getI18nPath = (url: string, locale: string) => {
 
   return `/${locale}${url}`;
 };
+
+
+export const isEmpty = function(string: string | null) {
+  if (!string) return true;
+  // This doesn't work the same way as the isEmpty function used 
+  // in the first example, it will return true for strings containing only whitespace
+  return (string.length === 0 || !string.trim());
+};

@@ -44,7 +44,7 @@ const NEXT_PUBLIC_SERVER_FILES_URL =  process.env.NEXT_PUBLIC_SERVER_FILES_URL |
 
 export default function ProductCard({product}: {product: IProduct}) {
   return (
-<div className="relative w-full max-w-xs overflow-hidden rounded-lg bg-white shadow-md">
+<div className="relative w-full overflow-hidden rounded-lg bg-white shadow-md">
   <a href="#">
      <img className="h-60 rounded-t-lg object-cover" src={product?.thumbnail?.file_name ? `${NEXT_PUBLIC_SERVER_FILES_URL}/${product?.thumbnail?.file_name}` : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSC5F52ynaRIN577hgyivShpnSw6iHDH_dDAg&s'} alt={product.title} />
   </a>

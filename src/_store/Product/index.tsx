@@ -3,21 +3,20 @@ import { create } from 'zustand';
 
 // State types
 interface States {
-  count: number;
+  product_sortType: string;
 }
 
 // Action types
 interface Actions {
-  increase: () => void;
-  decrease: () => void;
+  change_product_sortType: (sortType: string) => void;
 }
 
 // useCounterStore
-export const useCountStore = create<States & Actions>((set) => ({
+export const useProductsStore = create<States & Actions>((set) => ({
   // States
-  count: 0,
+  product_sortType: '',
     
   // Actions
-  increase: () => set((state) => ({ count: state.count + 1 })),
-  decrease: () => set((state) => ({ count: state.count - 1 })),
+  change_product_sortType: (sortType) => set((state) => ({...state, product_sortType: sortType}))
+  
 }));

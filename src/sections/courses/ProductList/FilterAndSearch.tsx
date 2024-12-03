@@ -10,7 +10,7 @@ import {
 import { ChevronDown } from 'lucide-react'
 
 interface FilterAndSearchProps {
-  onFilter: (searchTerm: string, selectedTags: string[], priceRange: [number, number]) => void
+  onFilter: (searchTerm: string, selectedTags: string[], priceRange?: [number, number] | null) => void
 }
 
 export default function FilterAndSearch({ onFilter }: FilterAndSearchProps) {
