@@ -1,5 +1,5 @@
 export interface IProduct {
-  id: number
+  _id: string
   subtitle: string
   meta_title: string
   meta_description: string
@@ -11,6 +11,7 @@ export interface IProduct {
   is_available: boolean
   status: boolean
   qr_code: string
+  quantity?: number,
   product_details?: {
     variants?: string
       width?: number,

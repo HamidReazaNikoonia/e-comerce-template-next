@@ -1,5 +1,8 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
+import { toast } from 'react-hot-toast';
 import { Star, ShoppingCart } from 'lucide-react';
+
+import {useCartStore} from '@/_store/Cart';
 
 import {IProduct} from '@/types/Product';
 
@@ -43,6 +46,30 @@ const calculateDiscountByPercentage = (currentPrice: number, discountPercentage:
 const NEXT_PUBLIC_SERVER_FILES_URL =  process.env.NEXT_PUBLIC_SERVER_FILES_URL || '';
 
 export default function ProductCard({product}: {product: IProduct}) {
+  const [isClicked, setIsClicked] = useState(false);
+
+
+  const addToCart = useCartStore(state => state.addToCart)
+
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    if (isClicked) {
+      timer = setTimeout(() => {
+        setIsClicked(false);
+      }, 1000);
+    }
+    return () => clearTimeout(timer);
+  }, [isClicked]);
+
+
+  const addProductToCart = (e: any) => {
+    e.preventDefault();
+    setIsClicked(true);
+    toast.success('محصول به سبد خرید شما اضافه شد'); // Displays a success message
+    addToCart(product);
+    console.log({product});
+  }
+
   return (
 <div className="relative w-full overflow-hidden rounded-lg bg-white shadow-md">
   <a href="#">
@@ -86,9 +113,24 @@ export default function ProductCard({product}: {product: IProduct}) {
         </span>)}
         
       </div>
-      {product?.is_available && (<a href="#" aria-disabled className="flex items-center rounded-md disabled:opacity-5 bg-slate-900 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-blue-300">
-        <ShoppingCart className='mr-2' size={19} />
-         خرید</a>)}
+      {product?.is_available && (
+        <a
+        onClick={addProductToCart}
+        href="#"
+        className={`flex items-center rounded-md ${
+          isClicked ? 'bg-green-500' : 'bg-slate-900 hover:bg-gray-700'
+        } px-5 py-2.5 text-center text-sm font-medium text-white focus:outline-none focus:ring-4 focus:ring-blue-300 transition-colors duration-300`}
+      >
+        {isClicked ? (
+          'اضافه به سبد خرید'
+        ) : (
+          <>
+            <ShoppingCart className="mr-2" size={19} />
+            خرید
+          </>
+        )}
+      </a>
+      )}
     </div>
   </div>
 </div>

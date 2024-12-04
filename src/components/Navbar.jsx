@@ -1,12 +1,29 @@
 'use client'
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+
 import { X, Search, ShoppingBasket, Menu, ChevronDown } from 'lucide-react';
+
+import { useCartStore } from '@/_store/Cart';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [productCountBadge, setproductCountBadge] = useState(0);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
+
+
+
+  const cart = useCartStore(state => state.cart)
+
+
+  useEffect(() => {
+    if (cart && Array.isArray(cart) && cart.length !== 0) {
+      setproductCountBadge(cart.length ? cart.length : 0);
+    }
+  }, [cart])
+
+
   /**
    * @type {string | number | NodeJS.Timeout | undefined}
    */
@@ -27,6 +44,11 @@ const Navbar = () => {
     setIsSearching(!isSearching);
   };
 
+
+  const handleCart = () => {
+    console.log(cart);
+  }
+
   return (
     <nav className="bg-gray-800 text-white fixed z-50 w-dvw">
       <div className="container mx-auto py-4 px-6">
@@ -35,7 +57,7 @@ const Navbar = () => {
           <div className="flex items-center justify-between w-full animate-fade-in-down">
             {/* Search Button */}
             <button className="bg-purple-800 hover:bg-blue-600 px-4 py-2 rounded mr-2 text-sm">
-            <Search />
+              <Search />
             </button>
             {/* Search Input */}
             <input
@@ -61,20 +83,31 @@ const Navbar = () => {
               >
                 <Search />
               </button>
-              <button
-                className="bg-purple-800 hover:bg-blue-600 px-4 py-2 rounded text-sm"
-                onClick={handleSearchToggle}
-              >
-                <ShoppingBasket />
-              </button>
+
+              <div className="relative inline-flex">
+                <button
+                  className="bg-purple-800 hover:bg-blue-600 px-4 py-2 rounded text-sm"
+                  onClick={handleCart}
+                >
+                  <ShoppingBasket />
+                </button>
+                {productCountBadge && (
+                  <span className="absolute top-0.5 right-0.5 grid min-h-[24px] min-w-[24px] translate-x-2/4 -translate-y-2/4 place-items-center rounded-full bg-red-600 py-1 px-1 text-xs text-white">
+                    {productCountBadge}
+                  </span>
+                )}
+
+              </div>
+
+
               <button className="bg-purple-800 hover:bg-blue-600 px-4 py-2 rounded text-sm">
-              ورود | ثبت‌نام
+                ورود | ثبت‌نام
               </button>
             </div>
 
             {/* Right Side: Logo and Menu */}
             <div className="flex items-center">
-              
+
 
               {/* Desktop Menu */}
               <ul className="hidden md:flex space-x-6 relative text-sm">
@@ -85,15 +118,14 @@ const Navbar = () => {
                   onMouseLeave={handleMouseLeave}
                 >
                   <span className=" inline-block text-xs">
-                  <ChevronDown className=" w-3 h-3 mr-1" />
+                    <ChevronDown className=" w-3 h-3 mr-1" />
                   </span>
                   خدمات
                   {/* Dropdown Menu */}
-                  
+
                   <ul
-                    className={`absolute left-0 mt-2 bg-gray-700 rounded shadow-lg w-40 transition-opacity duration-200 ${
-                      dropdownOpen ? "opacity-100 visible" : "opacity-0 invisible"
-                    }`}
+                    className={`absolute left-0 mt-2 bg-gray-700 rounded shadow-lg w-40 transition-opacity duration-200 ${dropdownOpen ? "opacity-100 visible" : "opacity-0 invisible"
+                      }`}
                   >
                     <li className="px-4 py-2 hover:bg-gray-600">خدمات</li>
                     <li className="px-4 py-2 hover:bg-gray-600">خدمات</li>
@@ -131,9 +163,8 @@ const Navbar = () => {
       )}
       {!isSearching && (
         <div
-          className={`fixed top-0 right-0 h-full bg-gray-800 text-white w-64 transform ${
-            isOpen ? "translate-x-0" : "translate-x-full"
-          } transition-transform duration-300 z-50`}
+          className={`fixed top-0 right-0 h-full bg-gray-800 text-white w-64 transform ${isOpen ? "translate-x-0" : "translate-x-full"
+            } transition-transform duration-300 z-50`}
         >
           <button
             className="absolute top-4 right-4"
@@ -150,9 +181,8 @@ const Navbar = () => {
               خدمات
               {/* Nested Menu for Mobile */}
               <ul
-                className={`pl-4 mt-2 space-y-2 text-sm ${
-                  dropdownOpen ? "block" : "hidden"
-                }`}
+                className={`pl-4 mt-2 space-y-2 text-sm ${dropdownOpen ? "block" : "hidden"
+                  }`}
               >
                 <li className="hover:text-gray-400">خدمات</li>
                 <li className="hover:text-gray-400">خدمات</li>

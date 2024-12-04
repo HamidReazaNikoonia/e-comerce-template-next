@@ -6,6 +6,8 @@ import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, setRequestLocale } from 'next-intl/server';
 import localFont from 'next/font/local'
 
+import { Toaster } from "react-hot-toast";
+
 // components
 import Footer from '@/templates/Footer';
 
@@ -74,6 +76,7 @@ export default async function RootLayout(props: {
           locale={locale}
           messages={messages}
         >
+        <Toaster position="bottom-center" />
           {props.children}
 
           {/* <DemoBadge /> */}
