@@ -7,6 +7,7 @@ import { clsx } from 'clsx';
 import { House, ChevronLeft, ChevronDown } from 'lucide-react';
 import { useProductsStore } from '@/_store/Product';
 import { isEmpty } from '@/utils/Helpers';
+import Breadcrumbs from '@/components/Breadcrumbs';
 
 
 const sortTypeStringMaper = {
@@ -56,37 +57,7 @@ export default function ProductListHeader() {
        {/* Right Side */}
        <div className='mb-4 md:mb-0'>
         {/* Breadcrumb */}
-        <nav className='flex' >
-          <ol className='inline-flex items-center text-right'>
-          <li className='ml-2'>
-              <div className=' items-center flex'>
-                
-                <a className=' font-medium text-sm'>
-                  محصولات
-                </a>
-                <ChevronLeft size={18} className='ml-2'  />
-              </div>
-            </li>
-
-            <li className='ml-2 '>
-              <div className=' items-center flex'>
-                
-                <a className=' font-medium text-sm'>
-                  محصولات
-                </a>
-                <ChevronLeft size={18} className='ml-2' />
-              </div>
-            </li>
-
-            {/* Header Title */}
-        <li className='inline-flex items-center'>
-              <a className=' font-medium text-sm inline-flex ml-2'>
-                خانه
-                <House size={18} className='text-sm ml-2' />
-              </a>
-        </li>
-          </ol>
-        </nav>
+        <Breadcrumbs/>
 
         {/* Header Title */}
         <h2 className=' mt-6 text-xl text-right '>
