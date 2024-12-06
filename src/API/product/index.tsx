@@ -66,6 +66,55 @@ async function getProducts(params: FilterParams = {}): Promise<ProductsResponse>
   return response;
 }
 
+
+const API_BASE_URL = 'http://localhost:9000/v1';
+const API_TOKEN = 'YOUR_API_TOKEN_HERE';
+
+export async function getComments(page: number) {
+  const options = {
+    method: 'GET',
+    headers: {
+      accept: 'application/json',
+      Authorization: `Bearer ${API_TOKEN}`,
+    },
+  };
+
+  const response = await fetch(
+    `${API_BASE_URL}/product/672f3bb2c149603001da12ad/hamid/review?page=${page}`,
+    options
+  );
+
+  if (!response.ok) {
+    throw new Error('Network response was not ok');
+  }
+
+  return response.json();
+}
+
+
+export async function submitComment(commentData: { text: string }) {
+  const options = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${API_TOKEN}`,
+    },
+    body: JSON.stringify(commentData),
+  };
+
+  const response = await fetch(
+    `${API_BASE_URL}/product/review`,
+    options
+  );
+
+  if (!response.ok) {
+    throw new Error('Network response was not ok');
+  }
+
+  return response.json();
+}
+
+
 export async function getProductsRequest(params: FilterParams) {
   const data = await getProducts(params);
   return data;
@@ -73,5 +122,17 @@ export async function getProductsRequest(params: FilterParams) {
 
 export async function getCategoriesRequest() {
   const data = await getCategories();
+  return data;
+}
+
+
+export async function getCommentsRequest({page}) {
+  const data = await getComments(page);
+  return data;
+}
+
+
+export async function submitCommentRequest(commentData) {
+  const data = await submitComment(commentData);
   return data;
 }

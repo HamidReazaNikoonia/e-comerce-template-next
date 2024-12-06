@@ -5,6 +5,7 @@ import ProductList from '@/sections/courses/ProductList';
 import Breadcrumbs from '@/components/Breadcrumbs';
 import { Star } from 'lucide-react';
 import AddToCartButton from '@/components/AddToCartButton';
+import CommentLayout from '@/components/Comment';
 
 type IAboutProps = {
   params: Promise<{ slug: string; locale: string }>;
@@ -179,6 +180,11 @@ export default async function SpecificCourse(props: IAboutProps) {
       </div>
     </div>
   </div>
+
+  {/* Comment Section */}
+          <CommentLayout />
+
+
     </div>
   );
 };
