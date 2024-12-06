@@ -36,7 +36,7 @@ const CommentForm: React.FC<CommentFormProps> = ({ user }) => {
   return (
     <form onSubmit={handleSubmit} className="mb-8">
       {!user && (
-        <input placeholder='نام خود را وارد کنید' className='w-1/3 mb-4 text-sm p-3 bg-gray-700 text-gray-100 border-b-2 border-gray-600 rounded-t-md resize-none focus:outline-none focus:border-purple-500 transition-colors duration-300' />
+        <input placeholder='نام خود را وارد کنید' className='w-full md:w-1/3 mb-4 text-sm p-3 bg-gray-700 text-gray-100 border-b-2 border-gray-600 rounded-t-md resize-none focus:outline-none focus:border-purple-500 transition-colors duration-300' />
       )}
       <textarea
         value={text}

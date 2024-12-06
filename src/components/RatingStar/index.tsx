@@ -2,15 +2,18 @@ import React, { useState } from "react";
 import { Star } from 'lucide-react';// Adjust the import based on your file structure
 
 type RatingProps = {
-  onChange: (rating: number) => void; // Callback function to return selected rating
+  defaultValue: number;
+  size?: number;
+  disabled?: boolean;
+  onChange?: (rating: number) => void; // Callback function to return selected rating
 };
 
-const Rating: React.FC<RatingProps> = ({ onChange }) => {
-  const [selectedRating, setSelectedRating] = useState(0); // State to store the selected rating
+const Rating: React.FC<RatingProps> = ({ onChange, defaultValue = 0, size = 24, disabled = false }) => {
+  const [selectedRating, setSelectedRating] = useState(defaultValue); // State to store the selected rating
 
   const handleRating = (rating: number) => {
     setSelectedRating(rating); // Update the selected rating
-    onChange(rating); // Call the onChange callback with the selected rating
+    onChange && onChange(rating); // Call the onChange callback with the selected rating
   };
 
   return (
@@ -21,11 +24,11 @@ const Rating: React.FC<RatingProps> = ({ onChange }) => {
           <Star
             key={starIndex}
             strokeWidth={1}
-            size={24}
+            size={size}
             fill={starIndex <= selectedRating ? "#facc15" : "gray"} // Fill based on selection
             stroke="none"
-            onClick={() => handleRating(starIndex)} // Handle click to set the rating
-            style={{ cursor: "pointer" }} // Add pointer cursor for interactivity
+            {...(!disabled && { onClick: () => handleRating(starIndex) })}
+            style={{ cursor: !disabled ? "pointer" : 'default' }} // Add pointer cursor for interactivity
           />
         );
       })}

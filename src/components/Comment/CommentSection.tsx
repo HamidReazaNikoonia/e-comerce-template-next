@@ -59,7 +59,7 @@ const CommentSection: React.FC = () => {
   }
 
   return (
-    <div className="max-w-3xl mx-auto p-6 bg-gray-800 rounded-lg shadow-lg">
+    <div className="max-w-screen-lg mx-auto p-6 bg-gray-800 rounded-lg shadow-lg">
       <h2 className="text-xl font-medium mb-6 text-gray-100"> دیدگاه های شما {data?.totalReviews && `(${parseInt(data?.totalReviews || 0).toLocaleString('ar-EG')})`}  </h2>
       {/* <button
         onClick={toggleUser}

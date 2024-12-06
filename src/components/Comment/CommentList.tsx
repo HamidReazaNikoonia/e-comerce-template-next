@@ -18,7 +18,7 @@ type CommentListProps = {
 
 const CommentList: React.FC<CommentListProps> = ({ comments, currentUser }) => {
   return (
-    <div className="space-y-6 mb-6">
+    <div className="space-y-8 mb-6 mt-14">
       {Array.isArray(comments) && comments.map((comment) => (
         <Comment
           key={comment._id}

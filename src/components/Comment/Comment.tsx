@@ -4,6 +4,7 @@ import ReplyForm from './ReplyForm';
 
 // Assets
 import avatarImage from '@/public/assets/images/avatar.png'
+import Rating from '../RatingStar';
 
 type CommentType = {
   id: number;
@@ -26,17 +27,23 @@ const Comment: React.FC<CommentProps> = ({ comment, onReply, currentUser }) => {
   return (
     <div className="bg-gray-700 rounded-lg p-4 shadow-sm transition-shadow duration-300 hover:shadow-md">
       <div className="flex items-center mb-3">
-        <img />
-        <Image alt={`تصویر ${comment.username}`} className="w-10 h-10 rounded-full ml-3 border-2 border-purple-400"
+        <div className='flex items-center flex-1'>
+        <Image alt={`تصویر ${comment.name}`} className="w-10 h-10 rounded-full ml-3 border-2 border-purple-400"
           src={avatarImage} width={24} height={24} />
         <div>
-          <h3 className="font-medium text-gray-100">{comment.username}</h3>
+          <h3 className="font-medium text-gray-100">{comment.name}</h3>
           {comment.isAdmin && (
             <span className="bg-purple-600 text-white text-xs px-2 py-1 rounded-full mr-2">مدیر</span>
           )}
         </div>
+        </div>
+
+
+        <div className=' self-start'>
+          <Rating disabled defaultValue={3} size={18} />
+        </div>
       </div>
-      <p className="mb-3 text-gray-300">{comment.comment}</p>
+      <p className="mb-3 text-gray-300 text-sm">{comment.comment}</p>
       {currentUser?.isAdmin && !comment.isAdmin && (
         <button onClick={() => setShowReplyForm(!showReplyForm)}
           className="text-purple-400 hover:text-purple-300 transition-colors duration-300"
