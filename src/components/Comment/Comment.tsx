@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image'
 import ReplyForm from './ReplyForm';
 
@@ -23,6 +23,23 @@ type CommentProps = {
 
 const Comment: React.FC<CommentProps> = ({ comment, onReply, currentUser }) => {
   const [showReplyForm, setShowReplyForm] = useState(false);
+  const [screenMobile, setScreenMobile] = useState(false);
+
+
+  useEffect(() => {
+    const handleResize = () => {
+      setScreenMobile(window.innerWidth < 700);
+    };
+
+    // Initial check
+    handleResize();
+
+    // Add event listener
+    window.addEventListener("resize", handleResize);
+
+    // Cleanup event listener on component unmount
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   return (
     <div className="bg-gray-700 rounded-lg p-4 shadow-sm transition-shadow duration-300 hover:shadow-md">
@@ -40,7 +57,7 @@ const Comment: React.FC<CommentProps> = ({ comment, onReply, currentUser }) => {
 
 
         <div className=' self-start'>
-          <Rating disabled defaultValue={3} size={18} />
+          <Rating disabled defaultValue={comment.rating} size={screenMobile ? 14 : 18} />
         </div>
       </div>
       <p className="mb-3 text-gray-300 text-sm">{comment.comment}</p>

@@ -70,7 +70,7 @@ async function getProducts(params: FilterParams = {}): Promise<ProductsResponse>
 const API_BASE_URL = 'http://localhost:9000/v1';
 const API_TOKEN = 'YOUR_API_TOKEN_HERE';
 
-export async function getComments(page: number) {
+export async function getComments(page: number, productId: string) {
   const options = {
     method: 'GET',
     headers: {
@@ -80,7 +80,7 @@ export async function getComments(page: number) {
   };
 
   const response = await fetch(
-    `${API_BASE_URL}/product/672f3bb2c149603001da12ad/hamid/review?page=${page}`,
+    `${API_BASE_URL}/product/${productId}/hamid/review?page=${page}`,
     options
   );
 
@@ -92,7 +92,7 @@ export async function getComments(page: number) {
 }
 
 
-export async function submitComment(commentData: { text: string }) {
+export async function submitComment(commentData: { text: string, productId: string, rating: number, name?: string }) {
   const options = {
     method: 'POST',
     headers: {
@@ -103,7 +103,7 @@ export async function submitComment(commentData: { text: string }) {
   };
 
   const response = await fetch(
-    `${API_BASE_URL}/product/review`,
+    `${API_BASE_URL}/product/${commentData.productId}/hamid/review?page`,
     options
   );
 
@@ -126,8 +126,8 @@ export async function getCategoriesRequest() {
 }
 
 
-export async function getCommentsRequest({page}) {
-  const data = await getComments(page);
+export async function getCommentsRequest({page, productId}) {
+  const data = await getComments(page, productId);
   return data;
 }
 

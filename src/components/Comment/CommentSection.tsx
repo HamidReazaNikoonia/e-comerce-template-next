@@ -17,7 +17,11 @@ type Comment = {
   replies: Comment[];
 };
 
-const CommentSection: React.FC = () => {
+
+type Iprops = {
+  productId: string
+}
+const CommentSection: React.FC<Iprops> = ({productId}: Iprops) => {
   const [user, setUser] = useState<{ username: string; avatar: string; isAdmin: boolean } | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const commentsPerPage = 10;
@@ -31,7 +35,7 @@ const CommentSection: React.FC = () => {
   // );
 
   const { data, isLoading, isError, isSuccess, error } = useQuery({
-    queryFn: async () => getComments(currentPage || 1),
+    queryFn: async () => getComments(currentPage || 1, productId),
     keepPreviousData: true,
     queryKey: ["comments", currentPage], //Array according to Documentation
   });
@@ -67,7 +71,7 @@ const CommentSection: React.FC = () => {
       >
         {user ? 'خروج' : 'ورود به عنوان مدیر'}
       </button> */}
-      <CommentForm user={user} />
+      <CommentForm productId={productId} user={user} />
       <CommentList comments={data?.data} currentUser={user} />
       <Pagination
         commentsPerPage={commentsPerPage}

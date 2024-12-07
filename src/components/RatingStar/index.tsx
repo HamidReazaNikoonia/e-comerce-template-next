@@ -11,6 +11,8 @@ type RatingProps = {
 const Rating: React.FC<RatingProps> = ({ onChange, defaultValue = 0, size = 24, disabled = false }) => {
   const [selectedRating, setSelectedRating] = useState(defaultValue); // State to store the selected rating
 
+  console.log({hoooo: defaultValue})
+
   const handleRating = (rating: number) => {
     setSelectedRating(rating); // Update the selected rating
     onChange && onChange(rating); // Call the onChange callback with the selected rating

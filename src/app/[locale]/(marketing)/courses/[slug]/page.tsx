@@ -182,7 +182,7 @@ export default async function SpecificCourse(props: IAboutProps) {
   </div>
 
   {/* Comment Section */}
-          <CommentLayout />
+          <CommentLayout productId={productsData.data.products[0]?._id} />
 
 
     </div>

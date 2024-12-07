@@ -8,10 +8,13 @@ import RatingStar from '@/components/RatingStar';
 
 type CommentFormProps = {
   user: { username: string; avatar: string } | null;
+  productId: string;
 };
 
-const CommentForm: React.FC<CommentFormProps> = ({ user }) => {
+const CommentForm: React.FC<CommentFormProps> = ({ user, productId }) => {
   const [text, setText] = useState('');
+  const [name, setName] = useState('');
+  const [rate, setRate] = useState(1);
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
@@ -19,24 +22,27 @@ const CommentForm: React.FC<CommentFormProps> = ({ user }) => {
     onSuccess: () => {
       queryClient.invalidateQueries('comments');
       setText('');
+      setName('');
+      setRate(0);
     },
   })
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (text.trim()) {
-      mutation.mutate({ text });
+      mutation.mutate({ text, productId, name, rating: rate });
     }
   };
 
   const handleRatingChange = (rating: number) => {
     console.log("Selected Rating:", rating);
+    setRate(rating);
   };
 
   return (
     <form onSubmit={handleSubmit} className="mb-8">
       {!user && (
-        <input placeholder='نام خود را وارد کنید' className='w-full md:w-1/3 mb-4 text-sm p-3 bg-gray-700 text-gray-100 border-b-2 border-gray-600 rounded-t-md resize-none focus:outline-none focus:border-purple-500 transition-colors duration-300' />
+        <input onChange={(e) => setName(e.target.value)} value={name} placeholder='نام خود را وارد کنید' className='w-full md:w-1/3 mb-4 text-sm p-3 bg-gray-700 text-gray-100 border-b-2 border-gray-600 rounded-t-md resize-none focus:outline-none focus:border-purple-500 transition-colors duration-300' />
       )}
       <textarea
         value={text}
@@ -48,7 +54,7 @@ const CommentForm: React.FC<CommentFormProps> = ({ user }) => {
       <div className='flex mt-4 justify-end'>
           <div className='flex'>
             <h5 className='text-xs ml-4 mt-1'>نظر دهید</h5>
-            <RatingStar onChange={handleRatingChange}  />
+            <RatingStar defaultValue={1} onChange={handleRatingChange}  />
           {/* <Star
             key={1}
             strokeWidth={1}
