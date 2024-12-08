@@ -39,7 +39,7 @@ export default function AddToCartButton({productIsAvailable, product}: {productI
         href="#"
         className={`flex items-center rounded-md ${
           isClicked ? 'bg-green-500 text-gray-800' : 'bg-purple-900 text-white hover:bg-gray-700'
-        } px-8 py-2.5 text-center text-sm font-medium  focus:outline-none focus:ring-1 focus:ring-blue-300 transition-colors duration-300`}
+        } px-16 py-2.5 text-center text-sm font-medium  focus:outline-none focus:ring-1 focus:ring-blue-300 transition-colors duration-300`}
       >
         {isClicked ? (
           <>

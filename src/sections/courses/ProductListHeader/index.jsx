@@ -57,7 +57,8 @@ export default function ProductListHeader() {
        {/* Right Side */}
        <div className='mb-4 md:mb-0'>
         {/* Breadcrumb */}
-        <Breadcrumbs/>
+        <Breadcrumbs levels={[{title: 'محصولات', link: '/courses'}]} />
+
 
         {/* Header Title */}
         <h2 className=' mt-6 text-xl text-right '>

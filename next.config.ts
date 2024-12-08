@@ -24,6 +24,11 @@ export default withSentryConfig(
             hostname: 'aisun-ci.ir',
             port: '',
           },
+          {
+            protocol: 'http',
+            hostname: 'localhost',
+            port: '9000',
+          },
         ],
       },
       reactStrictMode: true,
