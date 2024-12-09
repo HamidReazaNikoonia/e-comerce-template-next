@@ -8,6 +8,8 @@ import { Star } from 'lucide-react';
 import AddToCartButton from '@/components/AddToCartButton';
 import CommentLayout from '@/components/Comment';
 
+import product_placeholder from "@/public/assets/images/product_placeholder.png";
+
 type IAboutProps = {
   params: Promise<{ slug: string; locale: string }>;
 };
@@ -51,7 +53,7 @@ export default async function SpecificCourse(props: IAboutProps) {
 
   const params = await props.params;
   const productsData = await fetchRepo({ productId: params.slug });
-  console.log(productsData.data)
+  console.log({ nn: productsData.data })
 
 
   console.log({ pp: params.slug })
@@ -84,7 +86,7 @@ export default async function SpecificCourse(props: IAboutProps) {
                     alt="Mountains"
                     // Importing an image will
                     // automatically set the width and height
-                    src={product?.thumbnail?.file_name ? `${NEXT_PUBLIC_SERVER_FILES_URL}/${product?.thumbnail?.file_name}` : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSC5F52ynaRIN577hgyivShpnSw6iHDH_dDAg&s'}
+                    src={product?.thumbnail?.file_name ? `${NEXT_PUBLIC_SERVER_FILES_URL}/${product?.thumbnail?.file_name}` :  product_placeholder}
 
                     fill
                     // Make the image display full width
@@ -137,25 +139,36 @@ export default async function SpecificCourse(props: IAboutProps) {
 
           <div className="md:flex-1 px-4 mb-16">
             <h2 className="mb-2 leading-tight tracking-tight font-bold text-white text-right text-2xl md:text-3xl">
-              آموزش بازیگری
+              {product?.title}
             </h2>
             <p className="text-gray-300 text-right text-sm mt-6">
-              آموزش بازیگری برای ما
+              {product?.subtitle}
             </p>
 
-            <div className="flex flex-col md:flex-row items-center space-x-4 my-4">
+            <div className="flex flex-col md:flex-row items-center space-x-4 my-4 justify-between">
               <div>
                 <div className="rounded-lg bg-gray-100 flex mt-8 md:mt-0 py-2 px-3">
-                  <span className="text-indigo-400 mr-1 mt-1">تومان</span>
-                  <span className="font-bold text-indigo-600 text-3xl">{(2500000).toLocaleString('ar-EG')}</span>
+                  {product?.is_available ? (
+                    <>
+                      <span className="text-indigo-400 mr-1 mt-1">تومان</span>
+
+                      <span className="font-bold text-indigo-600 text-3xl">{(product.price).toLocaleString('ar-EG')}</span>
+
+                    </>
+
+
+                  ) : (<span className='text-gray-700 font-bold px-12' > ناموجود </span>)}
                 </div>
               </div>
-              <div className="flex-1 mt-8 md:mt-0">
+              {(product?.discountable?.status && product?.is_available) && (
+                <div className="flex-1 mt-8 md:mt-0">
                 <p className="text-green-500 text-xl font-semibold">
                   {(10).toLocaleString('ar-EG')}٪ تخفیف
                 </p>
                 <p className="text-gray-400 text-sm">شامل هزینه مالیات</p>
               </div>
+              )}
+              
 
               <div className="mt-2.5 mb-5 flex items-center">
                 <span className="mr-2 pt-1 rounded bg-yellow-300 text-black px-2.5 py-0.5 text-xs font-semibold">5</span>

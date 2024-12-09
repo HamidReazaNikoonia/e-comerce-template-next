@@ -5,6 +5,11 @@ import { Star, ShoppingCart } from 'lucide-react';
 import {useCartStore} from '@/_store/Cart';
 
 import {IProduct} from '@/types/Product';
+import Link from 'next/link';
+import Image from 'next/image';
+
+
+import product_placeholder from "@/public/assets/images/product_placeholder.png";
 
 
 const calculateDiscountByPercentage = (currentPrice: number, discountPercentage: number): number => {
@@ -71,10 +76,11 @@ export default function ProductCard({product}: {product: IProduct}) {
   }
 
   return (
-<div className="relative w-full overflow-hidden rounded-lg bg-white shadow-md">
-  <a href="#">
-     <img className="h-60 rounded-t-lg object-cover" src={product?.thumbnail?.file_name ? `${NEXT_PUBLIC_SERVER_FILES_URL}/${product?.thumbnail?.file_name}` : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSC5F52ynaRIN577hgyivShpnSw6iHDH_dDAg&s'} alt={product.title} />
-  </a>
+    <Link legacyBehavior href={`/courses/${product?._id}`} >
+<div className="relative w-full overflow-hidden rounded-lg bg-white shadow-md cursor-pointer hover:opacity-80">
+  <div className=' relative w-full h-60'>
+     <Image fill className=" rounded-t-lg object-cover" src={product?.thumbnail?.file_name ? `${NEXT_PUBLIC_SERVER_FILES_URL}/${product?.thumbnail?.file_name}` : product_placeholder} alt={product.title} />
+  </div>
   {/* If product not exist */}
   {!product?.is_available && <span className="absolute top-0 left-0 w-28 translate-y-4 -translate-x-6 -rotate-45 bg-black text-center text-xs text-white">ناموجود</span>}
   {(product?.is_available && product?.discountable?.status) && <span className="absolute top-0 left-0 w-28 translate-y-4 -translate-x-6 -rotate-45 bg-red-500 text-center text-xs text-white">
@@ -134,6 +140,6 @@ export default function ProductCard({product}: {product: IProduct}) {
     </div>
   </div>
 </div>
-
+</Link>
   )
 }

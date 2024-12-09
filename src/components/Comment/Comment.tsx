@@ -48,7 +48,7 @@ const Comment: React.FC<CommentProps> = ({ comment, onReply, currentUser }) => {
         <Image alt={`تصویر ${comment.name}`} className="w-10 h-10 rounded-full ml-3 border-2 border-purple-400"
           src={avatarImage} width={24} height={24} />
         <div>
-          <h3 className="font-medium text-gray-100">{comment.name}</h3>
+          <h3 className="font-medium text-xs md:text-sm text-gray-100">{comment.name}</h3>
           {comment.isAdmin && (
             <span className="bg-purple-600 text-white text-xs px-2 py-1 rounded-full mr-2">مدیر</span>
           )}
