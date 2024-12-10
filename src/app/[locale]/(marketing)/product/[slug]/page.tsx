@@ -1,8 +1,8 @@
-import { getTranslations, setRequestLocale } from 'next-intl/server';
+// import { getTranslations, setRequestLocale } from 'next-intl/server';
 import Image from 'next/image'
 
-import ProductListHeader from '@/sections/courses/ProductListHeader';
-import ProductList from '@/sections/courses/ProductList';
+// import ProductListHeader from '@/sections/product/ProductListHeader';
+// import ProductList from '@/sections/product/ProductList';
 import Breadcrumbs from '@/components/Breadcrumbs';
 import { Star } from 'lucide-react';
 import AddToCartButton from '@/components/AddToCartButton';
@@ -16,18 +16,18 @@ type IAboutProps = {
 
 const NEXT_PUBLIC_SERVER_FILES_URL = process.env.NEXT_PUBLIC_SERVER_FILES_URL || '';
 
-export async function generateMetadata(props: IAboutProps) {
-  // const { locale } = await props.params;
-  // const t = await getTranslations({
-  //   locale,
-  //   namespace: 'courses',
-  // });
+// export async function generateMetadata() {
+//   // const { locale } = await props.params;
+//   // const t = await getTranslations({
+//   //   locale,
+//   //   namespace: 'courses',
+//   // });
 
-  // return {
-  //   title: t('meta_title'),
-  //   description: t('meta_description'),
-  // };
-}
+//   // return {
+//   //   title: t('meta_title'),
+//   //   description: t('meta_description'),
+//   // };
+// }
 
 
 const fetchRepo = async ({ productId }: { productId: string }) => {

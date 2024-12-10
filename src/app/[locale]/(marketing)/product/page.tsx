@@ -1,7 +1,7 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 
-import ProductListHeader from '@/sections/courses/ProductListHeader';
-import ProductList from '@/sections/courses/ProductList';
+import ProductListHeader from '@/sections/product/ProductListHeader';
+import ProductList from '@/sections/product/ProductList';
 
 
 type IAboutProps = {
@@ -34,7 +34,7 @@ const fetchRepo = async () => {
 };
 
 
-export default async function About(props: IAboutProps) {
+export default async function Courses(props: IAboutProps) {
   // const { locale } = await props.params;
   // setRequestLocale(locale);
   // const t = await getTranslations({
