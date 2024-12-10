@@ -57,7 +57,7 @@ export default function ProductListHeader() {
        {/* Right Side */}
        <div className='mb-4 md:mb-0'>
         {/* Breadcrumb */}
-        <Breadcrumbs levels={[{title: 'محصولات', link: '/courses'}]} />
+        <Breadcrumbs levels={[{title: 'محصولات', link: '/product'}]} />
 
 
         {/* Header Title */}

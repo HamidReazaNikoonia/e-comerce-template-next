@@ -76,7 +76,7 @@ export default function ProductCard({product}: {product: IProduct}) {
   }
 
   return (
-    <Link legacyBehavior href={`/courses/${product?._id}`} >
+    <Link legacyBehavior href={`/product/${product?._id}`} >
 <div className="relative w-full overflow-hidden rounded-lg bg-white shadow-md cursor-pointer hover:opacity-80">
   <div className=' relative w-full h-60'>
      <Image fill className=" rounded-t-lg object-cover" src={product?.thumbnail?.file_name ? `${NEXT_PUBLIC_SERVER_FILES_URL}/${product?.thumbnail?.file_name}` : product_placeholder} alt={product.title} />

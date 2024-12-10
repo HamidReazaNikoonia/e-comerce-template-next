@@ -68,7 +68,7 @@ export default async function SpecificCourse(props: IAboutProps) {
       <div className="container mx-auto pt-20">
         {/* Header */}
         <div className='mb-8 flex mr-8 md:mr-0 flex-col-reverse md:flex-row justify-end items-end'>
-          <Breadcrumbs levels={[{ title: 'محصولات', link: '/courses' }, { title: product.title, link: '' }]} />
+          <Breadcrumbs levels={[{ title: 'محصولات', link: '/product' }, { title: product.title, link: '' }]} />
         </div>
 
       </div>
