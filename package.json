@@ -45,6 +45,7 @@
     "pino": "^9.5.0",
     "pino-pretty": "^13.0.0",
     "react": "19.0.0-rc-66855b96-20241106",
+    "react-advance-jalaali-datepicker": "^1.6.0",
     "react-dom": "19.0.0-rc-66855b96-20241106",
     "react-hook-form": "^7.53.2",
     "react-hot-toast": "^2.4.1",

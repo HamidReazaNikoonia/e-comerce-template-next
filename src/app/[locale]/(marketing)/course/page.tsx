@@ -4,10 +4,10 @@ import Link from 'next/link';
 import CourseListHeader from '@/sections/course/CourseListHeader';
 import HeroSwiperSection from '@/sections/course/HeroSwiperSection';
 import CourseCategoryCardSection from '@/sections/course/CourseCategoryCard';
-import { Clapperboard } from 'lucide-react';
+import CourseList from '@/sections/course/CourseList';
 
-// components
-import CourseItem from '@/components/CourseItem';
+
+
 
 
 type IPortfolioProps = {
@@ -55,20 +55,10 @@ export default async function Portfolio(props: IPortfolioProps) {
 
 
       <div className=' container mx-auto mb-24'>
-      <div className='mx-8 justify-end flex mb-8'>
-      <h3 className=' text-right mr-3 text-xl font-bold'> دوره ها</h3>
-      <Clapperboard />
-      </div>
-      <div className="flex w-full flex-wrap">
-      <CourseItem title="با هوش مصنوعی ویدیو بساز! (حضوری)" linkHref={`/`} imageSrc="https://aisun-ci.ir/wp-content/uploads/2024/08/ساخت-ویدئو-با-هوش-مصنوعی-600x338.jpg" courseType="HOZORI" score={5} teacher="زهرا محمدی" participantsCounts={30} price={30000} isLikedByUser />
-      <CourseItem title="با هوش مصنوعی ویدیو بساز! (حضوری)" linkHref={`/`} imageSrc="https://aisun-ci.ir/wp-content/uploads/2024/08/ساخت-ویدئو-با-هوش-مصنوعی-600x338.jpg" courseType="HOZORI" score={5} teacher="زهرا محمدی" participantsCounts={30} price={30000} isLikedByUser />
-      <CourseItem title="با هوش مصنوعی ویدیو بساز! (حضوری)" linkHref={`/`} imageSrc="https://aisun-ci.ir/wp-content/uploads/2024/08/ساخت-ویدئو-با-هوش-مصنوعی-600x338.jpg" courseType="HOZORI" score={5} teacher="زهرا محمدی" participantsCounts={30} price={30000} isLikedByUser />
-      <CourseItem title="با هوش مصنوعی ویدیو بساز! (حضوری)" linkHref={`/`} imageSrc="https://aisun-ci.ir/wp-content/uploads/2024/08/ساخت-ویدئو-با-هوش-مصنوعی-600x338.jpg" courseType="HOZORI" score={5} teacher="زهرا محمدی" participantsCounts={30} price={30000} isLikedByUser />
-      <CourseItem title="با هوش مصنوعی ویدیو بساز! (حضوری)" linkHref={`/`} imageSrc="https://aisun-ci.ir/wp-content/uploads/2024/08/ساخت-ویدئو-با-هوش-مصنوعی-600x338.jpg" courseType="HOZORI" score={5} teacher="زهرا محمدی" participantsCounts={30} price={30000} isLikedByUser />
-      <CourseItem title="با هوش مصنوعی ویدیو بساز! (حضوری)" linkHref={`/`} imageSrc="https://aisun-ci.ir/wp-content/uploads/2024/08/ساخت-ویدئو-با-هوش-مصنوعی-600x338.jpg" courseType="HOZORI" score={5} teacher="زهرا محمدی" participantsCounts={30} price={30000} isLikedByUser />
-      <CourseItem title="با هوش مصنوعی ویدیو بساز! (حضوری)" linkHref={`/`} imageSrc="https://aisun-ci.ir/wp-content/uploads/2024/08/ساخت-ویدئو-با-هوش-مصنوعی-600x338.jpg" courseType="HOZORI" score={5} teacher="زهرا محمدی" participantsCounts={30} price={30000} isLikedByUser />
 
-      </div>
+
+      <CourseList />
+
       </div>
     </div>
   );

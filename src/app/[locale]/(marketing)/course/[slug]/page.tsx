@@ -6,16 +6,16 @@ type IPortfolioDetailProps = {
   params: Promise<{ slug: string; locale: string }>;
 };
 
-export function generateStaticParams() {
-  return AppConfig.locales
-    .map(locale =>
-      Array.from(Array.from({ length: 6 }).keys()).map(elt => ({
-        slug: `${elt}`,
-        locale,
-      })),
-    )
-    .flat(1);
-}
+// export function generateStaticParams() {
+//   return AppConfig.locales
+//     .map(locale =>
+//       Array.from(Array.from({ length: 6 }).keys()).map(elt => ({
+//         slug: `${elt}`,
+//         locale,
+//       })),
+//     )
+//     .flat(1);
+// }
 
 export async function generateMetadata(props: IPortfolioDetailProps) {
   const { locale, slug } = await props.params;

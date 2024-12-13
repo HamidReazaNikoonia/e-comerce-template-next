@@ -31,7 +31,7 @@ export default withSentryConfig(
           },
         ],
       },
-      reactStrictMode: true,
+      reactStrictMode: false,
       serverExternalPackages: ['@electric-sql/pglite'],
     }),
   ),

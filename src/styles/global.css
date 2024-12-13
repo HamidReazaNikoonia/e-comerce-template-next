@@ -1,3 +1,37 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+.JDatePicker.custom_style {
+  border-radius: 20px;
+  background-color: #1e0d46;
+  padding: 15px;
+}
+
+.JDatePicker.custom_style .JC-days {
+  background-color: #1e0d46;
+}
+
+
+.JDatePicker .JDheader .right input[type="tel"] {
+  padding: 11px !important;
+  color: black !important;
+}
+
+.JDatePicker.custom_style .JC-tooltip {
+  transform: translateY(-34px);
+}
+
+.JDatePicker.custom_style .day-items {
+  border: 1px solid #fafafa1a !important;
+}
+
+
+input#datePicker_from, input#datePicker_to  {
+  @apply mt-2 block w-full cursor-pointer rounded-md border border-gray-500 bg-gray-700 px-2 py-2 shadow-sm outline-none focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50;
+}
+
+/* .jdtrp > div:nth-child(2) {
+  opacity: 0;
+} */
