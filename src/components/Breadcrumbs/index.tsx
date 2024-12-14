@@ -6,7 +6,20 @@ import { House, ChevronLeft } from 'lucide-react';
 export default function Breadcrumbs({ levels }) {
   return (
     <nav className='flex' >
-      <ol className='inline-flex items-center text-right'>
+      <ol className='inline-flex items-center text-right text-gray-400'>
+
+
+      {levels[2] && (
+          <li className='ml-2'>
+            <div className=' items-center flex'>
+
+              <a className=' font-medium text-sm'>
+                {levels[2]?.title}
+              </a>
+              <ChevronLeft size={18} className='ml-1' />
+            </div>
+          </li>
+        )}
 
         {levels[1] && (
           <li className='ml-2'>
@@ -15,7 +28,7 @@ export default function Breadcrumbs({ levels }) {
               <a className=' font-medium text-sm'>
                 {levels[1]?.title}
               </a>
-              <ChevronLeft size={18} className='ml-2' />
+              <ChevronLeft size={18} className='ml-1' />
             </div>
           </li>
         )}
@@ -28,7 +41,7 @@ export default function Breadcrumbs({ levels }) {
 
                 {levels[0]?.title}
               </Link>
-              <ChevronLeft size={18} className='ml-2' />
+              <ChevronLeft size={18} className='ml-1' />
             </div>
           </li>
         )}

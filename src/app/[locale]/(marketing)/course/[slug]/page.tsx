@@ -1,6 +1,8 @@
 import { AppConfig } from '@/utils/AppConfig';
 import Image from 'next/image';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
+import StickySidebarWraper from '@/sections/course/StickySidebarWraper';
+import CoursePageHeader from '@/sections/course/CoursePageHeader';
 
 type IPortfolioDetailProps = {
   params: Promise<{ slug: string; locale: string }>;
@@ -30,7 +32,7 @@ export async function generateMetadata(props: IPortfolioDetailProps) {
   };
 }
 
-export default async function PortfolioDetail(props: IPortfolioDetailProps) {
+export default async function SpecificCoursePage(props: IPortfolioDetailProps) {
   const { locale, slug } = await props.params;
   setRequestLocale(locale);
   const t = await getTranslations({
@@ -40,30 +42,18 @@ export default async function PortfolioDetail(props: IPortfolioDetailProps) {
 
   return (
     <>
-      <h1 className="capitalize">{t('header', { slug })}</h1>
-      <p>{t('content')}</p>
+      <div className='overflow-hidden pt-16 bg-black text-white min-h-screen'>
 
-      <div className="mt-5 text-center text-sm">
-        {`${t('log_management_powered_by')} `}
-        <a
-          className="text-blue-700 hover:border-b-2 hover:border-blue-700"
-          href="https://betterstack.com/?utm_source=github&utm_medium=sponsorship&utm_campaign=next-js-boilerplate"
-        >
-          Better Stack
-        </a>
+        {/* heaser title */}
+        <div>
+          <CoursePageHeader />
+        </div>
+
+
+        <div className='container mx-auto' id="StickySidebarWraper">
+          <StickySidebarWraper />
+        </div>
       </div>
-
-      <a
-        href="https://betterstack.com/?utm_source=github&utm_medium=sponsorship&utm_campaign=next-js-boilerplate"
-      >
-        <Image
-          className="mx-auto mt-2"
-          src="/assets/images/better-stack-dark.png"
-          alt="Better Stack"
-          width={128}
-          height={22}
-        />
-      </a>
     </>
   );
 };
