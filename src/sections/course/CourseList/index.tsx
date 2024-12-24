@@ -63,6 +63,14 @@ export default function CourseList({ data }: { data: { courses: ICourseTypes[], 
 
 
 
+  const filterHandler = (options) => {
+
+    const queryOptionsReq = {};
+
+    console.log(options)
+    setFilterParams(options);
+  }
+
 
 
 
@@ -79,7 +87,7 @@ export default function CourseList({ data }: { data: { courses: ICourseTypes[], 
       <div className='mx-8 justify-between flex mb-8'>
 
         {/* Filter Modal */}
-        <CourseListFilter />
+        <CourseListFilter filterHandler={(d) => filterHandler(d)} />
 
         <div className='flex'>
           <h3 className=' text-right mr-3 text-xl font-bold'> دوره ها</h3>

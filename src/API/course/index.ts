@@ -1,5 +1,9 @@
 import { ICourseTypes } from '@/types/Course';
 
+
+const API_BASE_URL = 'http://localhost:9000/v1';
+const API_TOKEN = 'YOUR_API_TOKEN_HERE';
+
 interface FilterParams {
   search?: string;
   sort?: string;
@@ -17,25 +21,25 @@ interface CourseResponse {
 }
 
 
-// async function getCategories() {
-//   const options = {
-//     method: "GET",
-//     headers: {
-//       accept: "application/json",
-//       Authorization:
-//         "Bearer ....",
-//     },
-//   };
+async function getCategories() {
+  const options = {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+      Authorization:
+        "Bearer ....",
+    },
+  };
 
-//   const response = fetch(
-//     `http://localhost:9000/v1/product/categories`,
-//     options
-//   )
-//     .then((response) => response.json())
-//     .catch((err) => console.error(err));
+  const response = fetch(
+    `${API_BASE_URL}/course/category`,
+    options
+  )
+    .then((response) => response.json())
+    .catch((err) => console.error(err));
 
-//   return response;
-// }
+  return response;
+}
 
 
 
@@ -65,8 +69,6 @@ async function getCourses(params: FilterParams = {}): Promise<CourseResponse> {
 }
 
 
-const API_BASE_URL = 'http://localhost:9000/v1';
-const API_TOKEN = 'YOUR_API_TOKEN_HERE';
 
 // export async function getComments(page: number, productId: string) {
 //   const options = {
@@ -118,10 +120,10 @@ export async function getCoursesRequest(params: FilterParams) {
   return data;
 }
 
-// export async function getCategoriesRequest() {
-//   const data = await getCategories();
-//   return data;
-// }
+export async function getCategoriesRequest() {
+  const data = await getCategories();
+  return data;
+}
 
 
 // export async function getCommentsRequest({page, productId}) {

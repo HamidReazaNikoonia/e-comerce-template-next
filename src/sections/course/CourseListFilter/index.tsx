@@ -1,6 +1,8 @@
 'use client';
 import React, { useEffect, useState, useRef } from 'react';
 import { Search, SlidersHorizontal } from 'lucide-react';
+import { getCategoriesRequest } from '@/API/course';
+import { useQuery } from "@tanstack/react-query";
 
 import {
   DatePicker,
@@ -8,12 +10,21 @@ import {
   DateRangePicker,
   DateTimeRangePicker
 } from "react-advance-jalaali-datepicker";
+import { isEmpty } from '@/utils/Helpers';
 
-export default function CourseListFilter() {
+export default function CourseListFilter({filterHandler}) {
 
   const [showModal, setShowModal] = useState(false);
   const [selectedFilterDateFrom, setselectedFilterDateFrom] = useState();
   const [selectedFilterDateTo, setselectedFilterDateTo] = useState();
+  const [searchQuery, setsearchQuery] = useState('');
+  const [selectCategory, setselectCategory] = useState("ALL");
+  const [courseType, setcourseType] = useState("ALL");
+
+  const { data: courseCategories, isLoading, isError, isSuccess } = useQuery({
+    queryFn: async () => await getCategoriesRequest(),
+    queryKey: ["course_category"], //Array according to Documentation
+  });
 
 
 
@@ -28,6 +39,36 @@ export default function CourseListFilter() {
     setselectedFilterDateTo(formatted)
     console.log(unix); // returns timestamp of the selected value, for example.
     console.log(formatted);
+  }
+
+
+  const triggertFilterHandler = (e) => {
+    e.preventDefault();
+    setShowModal(false);
+
+    const queryOptions = {};
+
+    if  (!isEmpty(searchQuery)) queryOptions.keyword = searchQuery;
+    if (selectedFilterDateFrom) queryOptions.price_from = selectedFilterDateFrom;
+    if (selectedFilterDateTo) queryOptions.price_to = selectedFilterDateTo;
+    if(selectCategory && selectCategory !== "ALL") queryOptions.course_category = selectCategory;
+    if(courseType && courseType !== "ALL") queryOptions.course_type = courseType;
+
+
+
+    
+    filterHandler(queryOptions);
+  }
+
+
+
+  const resetFormHandler = () => {
+    setsearchQuery('');
+    setselectCategory('ALL');
+    setcourseType('ALL');
+    setShowModal(false);
+
+    filterHandler({});
   }
 
 
@@ -66,6 +107,8 @@ export default function CourseListFilter() {
                           <div
                             className="relative mb-10 w-full flex  items-center justify-between rounded-md">
                             <input type="name" name="search"
+                              value={searchQuery}
+                              onChange={(e) => setsearchQuery(e.target.value)}
                               className="h-12 w-full cursor-text rounded-md border border-gray-500 bg-gray-700 py-4 px-4 text-sm shadow-sm outline-none focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 text-right"
                               placeholder="عنوان جستجو" />
                             <Search color='gray' className='ml-4' />
@@ -78,10 +121,12 @@ export default function CourseListFilter() {
                                 className="text-xs mb-1 font-medium text-stone-100">دسته بندی</label>
 
                               <select id="course_type"
+                                value={courseType}
+                                onChange={(e) => setcourseType(e.target.value)}
                                 className="text-right text-xs mt-2 block w-full cursor-pointer rounded-md border border-gray-500 bg-gray-700 px-4 py-2 shadow-sm outline-none focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
-                                <option>همه</option>
-                                <option>آنلاین</option>
-                                <option>حضوری</option>
+                                <option value="ALL">همه</option>
+                                <option value="HOZORI" >آنلاین</option>
+                                <option value="OFFLINE">حضوری</option>
                               </select>
                             </div>
 
@@ -90,10 +135,13 @@ export default function CourseListFilter() {
                                 className="text-xs mb-1 font-medium text-stone-100">موضوع</label>
 
                               <select id="course_subject"
+                                value={selectCategory}
+                                onChange={(e) => setselectCategory(e.target.value)}
                                 className="text-right text-xs mt-2 block w-full cursor-pointer rounded-md border border-gray-500 bg-gray-700 px-4 py-2 shadow-sm outline-none focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
-                                <option>هنری</option>
-                                <option>آموزشی</option>
-                                <option>فیلم سازی</option>
+                                      <option value="ALL">همه</option>
+                                {(isSuccess && Array.isArray(courseCategories)) && courseCategories.map((item, index) => (
+                                  <option value={item._id} key={item._id}>{item.name}</option>
+                                ))}
                               </select>
                             </div>
 
@@ -155,9 +203,10 @@ export default function CourseListFilter() {
                           </div>
 
                           <div className="mt-10 grid w-full grid-cols-2 justify-end space-x-4 md:flex">
-                            <button onClick={() => setShowModal(false)}
+                            <button onClick={() => resetFormHandler()}
                               className="text-xs rounded-lg bg-gray-200 px-8 py-2 font-semibold text-gray-700 outline-none hover:opacity-80 focus:ring">پاک کردن فیلتر</button>
                             <button
+                            onClick={(e) => triggertFilterHandler(e)}
                               className=" text-xs font-semibold rounded-lg bg-blue-600 px-8 py-2 text-white outline-none hover:opacity-80 focus:ring">جستجو</button>
                           </div>
                         </form>
