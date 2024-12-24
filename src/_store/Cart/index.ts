@@ -1,10 +1,13 @@
+
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
 
 import { IProduct } from '@/types/Product';
+import { ICourseTypes } from '@/types/Product';
+
 
 interface State {
-	cart: IProduct[];
+	cart: IProduct[] | ICourseTypes[];
 	totalItems: number;
 	totalPrice: number;
 }

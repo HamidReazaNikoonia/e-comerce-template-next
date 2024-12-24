@@ -2,9 +2,18 @@
 import { useState } from 'react';
 import Image from 'next/image'
 import Link from 'next/link'
-import { ShoppingBasket, Users, MapIcon as City, UserRound, Heart } from 'lucide-react'
+import { ShoppingBasket, Users, MapIcon as City, UserRound, Heart, Star } from 'lucide-react'
+
+import {useCartStore} from '@/_store/Cart';
+
+// Utils
+import {filterPriceNumber} from '@/utils/Helpers';
 
 import "./styles.css";
+import { ICourseTypes } from '@/types/Course';
+import toast from 'react-hot-toast';
+
+const NEXT_PUBLIC_SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL || '';
 
 
 type CourseItem = {
@@ -13,25 +22,40 @@ type CourseItem = {
   imageSrc?: string;
   courseType: string;
   score: number;
-  teacher: string;
+  teacher: {
+    name: string;
+    user_id: string;
+    family: string;
+    _id: string;
+    "__V": string;
+  };
   participantsCounts: number;
   price: number;
-  isLikedByUser?: boolean; 
+  isLikedByUser?: boolean;
+  course: ICourseTypes
 }
 
 const courseTypeMap: {
   HOZORI: string;
-  ONLINE: string;
+  OFFLINE: string;
 } = {
   HOZORI: 'حضوری',
-  ONLINE: 'آنلاین'
+  OFFLINE : 'آنلاین'
 }
 
-export default function CourseItem({ title, linkHref, imageSrc, courseType, score, teacher, participantsCounts, price, isLikedByUser = false }: CourseItem) {
-  
-  const [isLikedByUserState, setIsLikedByUserState] = useState(isLikedByUser)
-  
-  
+export default function CourseItem({ course, title, linkHref, imageSrc, courseType, score, teacher, participantsCounts, price, isLikedByUser = false }: CourseItem) {
+
+  const [isLikedByUserState, setIsLikedByUserState] = useState(isLikedByUser);
+
+  const addToCart = useCartStore(state => state.addToCart)
+
+
+  const addToCartHandler = (course) => {
+    addToCart(course);
+    toast.success('محصول به سبد خرید شما اضافه شد'); // Displays a success message
+
+  }
+
   return (
     <div dir="rtl" className=" w-full md:w-3/6 lg:w-2/6 mb-6 px-4 mb-7.5 font-[Yekan_Bakh] course-item">
       <div className="bg-white dark:bg-[#141414] border border-[#e5e5e5] rounded-md shadow-[0_2px_10px_#12131214] transition-all duration-300 ease-in-out overflow-hidden">
@@ -45,12 +69,12 @@ export default function CourseItem({ title, linkHref, imageSrc, courseType, scor
               className="w-full rounded-t-md border-b border-[#e5e5e5]"
             />
           </Link>
-          <Link
-            href="?add-to-cart=3633"
+          <div
+            onClick={() => addToCartHandler(course)}
             className="absolute -bottom-[18px] left-5 bg-[#4CAF50] text-white p-2 rounded-full border-4 border-white "
           >
             <ShoppingBasket className="w-5 h-5 text-left" />
-          </Link>
+          </div>
           <div className=' absolute bottom-5 right-4 w-14'>
             <button onClick={() => setIsLikedByUserState(!isLikedByUserState)} className='translate-y-full opacity-0 text-white rounded-lg duration-700 transition ease-in-out py-2 px-3 mt-8 like-button'>
               <Heart fill={isLikedByUserState ? 'red' : 'none'} strokeWidth={isLikedByUserState ? 0 : 2} />
@@ -71,14 +95,28 @@ export default function CourseItem({ title, linkHref, imageSrc, courseType, scor
           </div>
 
           <div className="flex items-center justify-between mb-4 text-sm">
-            <div className="flex items-center space-x-2 space-x-reverse transform translate-y-[7px]">
-              <div className="text-yellow-400">★★★★★</div>
-              <span className="text-white">بدون امتیاز ({score} رای)</span>
+            <div className="flex flex-col items-start  transform translate-y-[7px]">
+              {/* <div className="text-yellow-400">★★★★★</div> */}
+              <div style={{ display: "flex", gap: "2px", flexDirection: 'row-reverse' }}>
+                {Array.from({ length: 5 }, (_, index) => {
+                  const starIndex = index + 1;
+                  return (
+                    <Star
+                      key={starIndex}
+                      strokeWidth={1}
+                      size={18}
+                      fill={starIndex <= score ? "#facc15" : "gray"} // Fill based on selection
+                      stroke="none"
+                    />
+                  );
+                })}
+              </div>
+              <span className="text-white text-xs mt-3">بدون امتیاز ({score} رای)</span>
             </div>
             <div className="border bg-[#6E0072] hover:opacity-85 text-white px-4 py-1.5 rounded">
-              <Link href="/teacher/زهرا-محمدی" className="flex items-center text-xs hover:text-primary">
+              <Link href={`teacher/${teacher.user_id}`} className="flex items-center text-xs hover:text-primary">
                 <UserRound className="w-4 h-4 ml-1" />
-                {teacher}
+                {`${teacher.name} ${teacher.family}`}
               </Link>
             </div>
           </div>
@@ -105,14 +143,14 @@ export default function CourseItem({ title, linkHref, imageSrc, courseType, scor
               </div>
             </div>
             <div className="flex items-center text-base font-bold text-white">
-              {price}<span className="text-sm mr-1">تومان</span>
+              {filterPriceNumber(price)}<span className="text-sm mr-1">تومان</span>
             </div>
           </div>
 
           <div className='flex pt-3 items-start justify-center'>
-            <button className="bg-green-500 w-full text-xs hover:bg-green-400 text-white font-bold py-3 border-b-4 border-green-700 hover:border-green-500 rounded">
+            <Link href={linkHref} className="bg-green-500 w-full text-xs text-center hover:bg-green-400 text-white font-bold py-3 border-b-4 border-green-700 hover:border-green-500 rounded">
               شرکت در این دوره آموزشی
-            </button>
+            </Link>
           </div>
         </div>
       </div>

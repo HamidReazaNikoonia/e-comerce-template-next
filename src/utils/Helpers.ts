@@ -34,3 +34,8 @@ export const isEmpty = function(string: string | null) {
   // in the first example, it will return true for strings containing only whitespace
   return (string.length === 0 || !string.trim());
 };
+
+
+export const filterPriceNumber = (priceNumber: number) => {
+  return priceNumber.toLocaleString('fa-IR')
+}
