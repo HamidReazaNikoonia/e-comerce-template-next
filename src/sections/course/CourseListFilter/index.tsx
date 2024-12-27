@@ -4,12 +4,7 @@ import { Search, SlidersHorizontal } from 'lucide-react';
 import { getCategoriesRequest } from '@/API/course';
 import { useQuery } from "@tanstack/react-query";
 
-import {
-  DatePicker,
-  DateTimePicker,
-  DateRangePicker,
-  DateTimeRangePicker
-} from "react-advance-jalaali-datepicker";
+import { DatePicker } from "react-advance-jalaali-datepicker";
 import { isEmpty } from '@/utils/Helpers';
 
 export default function CourseListFilter({filterHandler}) {
@@ -49,8 +44,8 @@ export default function CourseListFilter({filterHandler}) {
     const queryOptions = {};
 
     if  (!isEmpty(searchQuery)) queryOptions.keyword = searchQuery;
-    if (selectedFilterDateFrom) queryOptions.price_from = selectedFilterDateFrom;
-    if (selectedFilterDateTo) queryOptions.price_to = selectedFilterDateTo;
+    if (selectedFilterDateFrom) queryOptions.date_from = selectedFilterDateFrom;
+    if (selectedFilterDateTo) queryOptions.date_to = selectedFilterDateTo;
     if(selectCategory && selectCategory !== "ALL") queryOptions.course_category = selectCategory;
     if(courseType && courseType !== "ALL") queryOptions.course_type = courseType;
 
@@ -67,6 +62,9 @@ export default function CourseListFilter({filterHandler}) {
     setselectCategory('ALL');
     setcourseType('ALL');
     setShowModal(false);
+    setselectedFilterDateFrom(undefined);
+    setselectedFilterDateTo(undefined);
+
 
     filterHandler({});
   }
@@ -101,7 +99,7 @@ export default function CourseListFilter({filterHandler}) {
                 <>
                   <div className="m-10 w-screen max-w-screen-md">
 
-                    <div className="flex flex-col">
+                    <div className="flex flex-col px-12 md:px-2">
                       <div className="rounded-xl ">
                         <form className="">
                           <div
@@ -111,7 +109,9 @@ export default function CourseListFilter({filterHandler}) {
                               onChange={(e) => setsearchQuery(e.target.value)}
                               className="h-12 w-full cursor-text rounded-md border border-gray-500 bg-gray-700 py-4 px-4 text-sm shadow-sm outline-none focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 text-right"
                               placeholder="عنوان جستجو" />
+                            <div className=' hidden md:block'>
                             <Search color='gray' className='ml-4' />
+                            </div>
                           </div>
 
                           <div
@@ -182,8 +182,8 @@ export default function CourseListFilter({filterHandler}) {
                               {/* <input type="date" id="date"
                                                     className="mt-2 block w-full cursor-pointer rounded-md border border-gray-500 bg-gray-700 px-2 py-2 shadow-sm outline-none focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50" />
                                                 */}
-                              <DatePicker placeholder="انتخاب تاریخ" format="jYYYY/jMM/jDD"
-                                onChange={changeDataPickerTo} cancelOnBackgroundClick inputTextAlign="center"
+                              <DatePicker placeholder=" " format="jYYYY/jMM/jDD"
+                                onChange={changeDataPickerTo} preSelected={selectedFilterDateTo} cancelOnBackgroundClick inputTextAlign="center"
                                 id="datePicker_to"  customClass="custom_style"
                                 newThemeColor="#2f4699" />
                             </div>
@@ -195,16 +195,16 @@ export default function CourseListFilter({filterHandler}) {
                               {/* <input type="date" id="date"
                                                     className="mt-2 block w-full cursor-pointer rounded-md border border-gray-500 bg-gray-700 px-2 py-2 shadow-sm outline-none focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50" />
                                                 */}
-                              <DatePicker placeholder="انتخاب تاریخ" format="jYYYY/jMM/jDD"
-                                onChange={changeDataPickerFrom} cancelOnBackgroundClick inputTextAlign="center"
+                              <DatePicker placeholder=" " format="jYYYY/jMM/jDD"
+                                onChange={changeDataPickerFrom} preSelected={selectedFilterDateFrom} cancelOnBackgroundClick inputTextAlign="center"
                                 id="datePicker_from"  customClass="custom_style"
                                 newThemeColor="#2f4699" />
                             </div>
                           </div>
 
-                          <div className="mt-10 grid w-full grid-cols-2 justify-end space-x-4 md:flex">
+                          <div className="mt-10 flex w-full flex-col md:flex-row justify-end ">
                             <button onClick={() => resetFormHandler()}
-                              className="text-xs rounded-lg bg-gray-200 px-8 py-2 font-semibold text-gray-700 outline-none hover:opacity-80 focus:ring">پاک کردن فیلتر</button>
+                              className="text-xs rounded-lg mb-4 md:mb-0 mr-0 md:mr-6 bg-gray-200 px-8 py-2 font-semibold text-gray-700 outline-none hover:opacity-80 focus:ring">پاک کردن فیلتر</button>
                             <button
                             onClick={(e) => triggertFilterHandler(e)}
                               className=" text-xs font-semibold rounded-lg bg-blue-600 px-8 py-2 text-white outline-none hover:opacity-80 focus:ring">جستجو</button>

@@ -13,6 +13,7 @@ import CourseDetails from '@/sections/course/CourseDetails';
 
 // assets
 import SampleImage from '@/public/assets/images/product_placeholder.png'
+import UserReviewForCourse from '@/sections/course/UserReviewForCourse';
 
 export default function StickyComponent() {
   const stickyRef = useRef<HTMLDivElement>(null)
@@ -128,6 +129,21 @@ export default function StickyComponent() {
               <div className='w-full bg-[#1c1c1c] px-6 py-10'>
                 <CourseDetails />
               </div>
+
+
+            {/* Get a List of Course Based on Category */}
+            <div className='w-full px-6 py-10'>
+            <button className="bg-purple-800 w-full hover:bg-blue-600 px-4 py-2 rounded mr-2 text-sm">
+              مشاهده دوره های مشابه
+            </button>
+            </div>
+
+
+
+            {/* User Review */}
+            <div className='w-full px-1 py-10'>
+              <UserReviewForCourse />
+            </div>
           </div>
         </div>
 
