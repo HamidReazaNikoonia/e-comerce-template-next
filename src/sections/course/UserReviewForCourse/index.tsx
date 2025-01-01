@@ -19,8 +19,8 @@ export default function UserReviewForCourse() {
         <div className="max-w-7xl mx-auto py-12 px-6 md:px-12 xl:px-6">
 
           <div className="mb-10 space-y-4 px-6 md:px-0">
-            <h2 className="text-center text-1xl font-bold text-gray-800 dark:text-white md:text-2xl">
-              نظرات هنرجویان
+            <h2 className="text-center text-xl font-bold text-gray-800 dark:text-white md:text-2xl">
+              نظرات برتر هنرجویان
             </h2>
           </div>
 

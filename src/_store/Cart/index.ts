@@ -3,7 +3,7 @@ import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
 
 import { IProduct } from '@/types/Product';
-import { ICourseTypes } from '@/types/Product';
+import { ICourseTypes } from '@/types/Course';
 
 
 interface State {
@@ -13,7 +13,7 @@ interface State {
 }
 
 interface Actions {
-	addToCart: (Item: IProduct) => void;
+	addToCart: (Item: IProduct | ICourseTypes) => void;
 	incrementQuantity: (Item: IProduct) => void;
 	decrementQuantity: (Item: IProduct) => void;
 	removeFromCart: (Item: IProduct) => void;
