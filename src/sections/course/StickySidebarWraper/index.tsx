@@ -20,6 +20,7 @@ import SampleImage from '@/public/assets/images/product_placeholder.png'
 import UserReviewForCourse from '@/sections/course/UserReviewForCourse';
 import { ICourseTypes } from '@/types/Course';
 import TeacherInfoSection from '../SpecificCoursePage/TeacherInfoSection';
+import CommenCourseSwiper from '../SpecificCoursePage/CommenCourseSwiper';
 
 moment.loadPersian({ usePersianDigits: true });
 
@@ -35,7 +36,7 @@ export default function StickyComponent({ dataFromServer }: { dataFromServer: IC
   useEffect(() => {
     const handleScroll = () => {
       if (stickyRef.current && footerRef.current) {
-        const stickyTop = stickyRef.current.getBoundingClientRect().top * 10
+        const stickyTop = stickyRef.current.getBoundingClientRect().top * 15
         const footerTop = footerRef.current.getBoundingClientRect().top
         const viewportHeight = window.innerHeight
 
@@ -305,8 +306,15 @@ export default function StickyComponent({ dataFromServer }: { dataFromServer: IC
 
 
             {/* Course Information Teacher Info */}
-            
+            <div 
+            ref={stickyRef}
+            className={` flex ${
+              isSticky ? 'fixed top-20  w-[426px]' : 'w-full'
+            }`}
+          >
             <TeacherInfoSection />
+          </div>
+            
           </div>
 
 
@@ -362,6 +370,11 @@ export default function StickyComponent({ dataFromServer }: { dataFromServer: IC
               </button>
             </div>
 
+
+            {/* Commen Course Swiper Section */}
+            <div className='w-full bg-[#1c1c1c] px-0 pt-10 rounded-lg pb-3'>
+              <CommenCourseSwiper />
+            </div>
 
 
             {/* User Review */}

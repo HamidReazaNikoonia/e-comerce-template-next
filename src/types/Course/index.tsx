@@ -1,4 +1,5 @@
 export interface ICourseTypes {
+  createdAt: any;
   title: string;
   sub_title?: string;
   tumbnail_image: string; // Reference to 'Upload'
@@ -21,7 +22,10 @@ export interface ICourseTypes {
   is_have_licence?: boolean;
   course_views?: number;
   score?: number;
-  course_category?: string; // Reference to 'Course_Category'
+  course_category?: {
+    name: string
+    _id: string
+  }; // Reference to 'Course_Category'
   coach_id?: string; // Reference to 'Coach'
   course_objects?: {
     subject_title: string;

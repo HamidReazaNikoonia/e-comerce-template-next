@@ -16,7 +16,7 @@ const sortTypeStringMaper = {
   'title': 'الفبا'
 }
 
-export default function CoursePageHeader() {
+export default function CoursePageHeader({title, courseCategory}: {title: string, courseCategory: string}) {
 
   const [sortDropDownOpen, setSortDropDownOpen] = useState(false);
   const product_sortType = useProductsStore((state) => state.product_sortType);
@@ -24,7 +24,7 @@ export default function CoursePageHeader() {
 
 
   return (
-    <div className="mb-8 bg-[#1e1f20] py-8 flex mr-8 md:mr-0 flex-col-reverse md:flex-row justify-end mt-16 px-8 items-end">
+    <div className="mb-8 bg-[#1e1f20] py-8 flex mr-8 md:mr-0 flex-col-reverse md:flex-row justify-end mt-12 px-8 items-end">
      
 
 
@@ -36,12 +36,12 @@ export default function CoursePageHeader() {
 
         {/* Header Title */}
         <h2 className=' mb-6 text-3xl text-right'>
-         لیست محصولات
+         {title || ''} 
         </h2>
 
 
         {/* Breadcrumb */}
-        <Breadcrumbs levels={[{title: 'دوره های آموزشی', link: '/product'}, {title: ' هنری', link: '/'}, {title: ' کیر خر'}]} />
+        <Breadcrumbs levels={[{title: 'دوره های آموزشی', link: '/course'}, {title: courseCategory, link: '/'}, {title: title}]} />
 
 
         
