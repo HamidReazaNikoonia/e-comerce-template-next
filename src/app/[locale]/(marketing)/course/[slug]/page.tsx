@@ -5,6 +5,7 @@ import StickySidebarWraper from '@/sections/course/StickySidebarWraper';
 import CoursePageHeader from '@/sections/course/CoursePageHeader';
 
 import { ICourseTypes } from '@/types/Course';
+import CommentLayout from '@/components/Comment';
 
 type IPortfolioDetailProps = {
   params: Promise<{ slug: string; locale: string }>;
@@ -72,6 +73,9 @@ export default async function SpecificCoursePage(props: IPortfolioDetailProps) {
         <div className='container mx-auto' id="StickySidebarWraper">
           <StickySidebarWraper dataFromServer={productsData} />
         </div>
+
+         {/* Comment Section */}
+         <CommentLayout type="course" productId={productsData._id} />
       </div>
     </>
   );

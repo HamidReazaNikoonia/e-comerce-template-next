@@ -19,9 +19,10 @@ type Comment = {
 
 
 type Iprops = {
-  productId: string
+  productId: string;
+  type: string;
 }
-const CommentSection: React.FC<Iprops> = ({productId}: Iprops) => {
+const CommentSection: React.FC<Iprops> = ({productId, type}: Iprops) => {
   const [user, setUser] = useState<{ username: string; avatar: string; isAdmin: boolean } | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const commentsPerPage = 10;
@@ -35,7 +36,7 @@ const CommentSection: React.FC<Iprops> = ({productId}: Iprops) => {
   // );
 
   const { data, isLoading, isError, isSuccess, error } = useQuery({
-    queryFn: async () => getComments(currentPage || 1, productId),
+    queryFn: async () => getComments(currentPage || 1, productId, type),
     keepPreviousData: true,
     queryKey: ["comments", currentPage], //Array according to Documentation
   });

@@ -1,7 +1,7 @@
 'use client'
 import CommentSection from './CommentSection';
 
-export default function CommentLayout({productId}: {productId: string}) {
+export default function CommentLayout({productId, type}: {productId: string, type: string}) {
   return (
     <div dir="rtl" className="min-h-screepy-12 ">
       <div className="mx-auto bg-gray-900 rounded-lg shadow-xl overflow-hidden pb-20">
@@ -11,7 +11,7 @@ export default function CommentLayout({productId}: {productId: string}) {
             شما هم میتوانید در این قسمت نظر بگذارید
           </p>
         </div>
-        <CommentSection productId={productId} />
+        <CommentSection type={type} productId={productId} />
       </div>
     </div>
   );

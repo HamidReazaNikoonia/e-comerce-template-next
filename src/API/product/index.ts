@@ -70,7 +70,7 @@ async function getProducts(params: FilterParams = {}): Promise<ProductsResponse>
 const API_BASE_URL = 'http://localhost:9000/v1';
 const API_TOKEN = 'YOUR_API_TOKEN_HERE';
 
-export async function getComments(page: number, productId: string) {
+export async function getComments(page: number, productId: string, type: string) {
   const options = {
     method: 'GET',
     headers: {
@@ -80,7 +80,7 @@ export async function getComments(page: number, productId: string) {
   };
 
   const response = await fetch(
-    `${API_BASE_URL}/product/${productId}/hamid/review?page=${page}`,
+    `${API_BASE_URL}/${type || 'product'}/${productId}/hamid/review?page=${page}`,
     options
   );
 

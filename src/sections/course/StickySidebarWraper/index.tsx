@@ -21,6 +21,7 @@ import UserReviewForCourse from '@/sections/course/UserReviewForCourse';
 import { ICourseTypes } from '@/types/Course';
 import TeacherInfoSection from '../SpecificCoursePage/TeacherInfoSection';
 import CommenCourseSwiper from '../SpecificCoursePage/CommenCourseSwiper';
+import CommentLayout from '@/components/Comment';
 
 moment.loadPersian({ usePersianDigits: true });
 
@@ -338,7 +339,7 @@ export default function StickyComponent({ dataFromServer }: { dataFromServer: IC
 
         {/* Rigth Side */}
         <div className="md:w-2/3">
-          <div className='flex flex-col justify-center items-center px-8 border'>
+          <div className='flex flex-col justify-center items-center px-8'>
             {/* Thumb Image */}
             <div>
               <Image alt="" width={700} height={450} src={SampleImage} />
@@ -352,13 +353,13 @@ export default function StickyComponent({ dataFromServer }: { dataFromServer: IC
 
 
             {/* Video Sample Gallery */}
-            <div className='w-full bg-[#1c1c1c] px-6 py-10'>
+            <div className='w-full bg-[#1c1c1c] px-6 py-10 rounded-t-lg'>
               <VideoSampleGallery />
             </div>
 
 
             {/* Course Details information */}
-            <div className='w-full bg-[#1c1c1c] px-6 py-10'>
+            <div className='w-full bg-[#1c1c1c] px-6 py-10 rounded-b-lg'>
               <CourseDetails />
             </div>
 
@@ -388,11 +389,12 @@ export default function StickyComponent({ dataFromServer }: { dataFromServer: IC
 
 
       </div>
+
+
+
       <div ref={footerRef} className="mt-6">
-        <div className="bg-gray-900 text-white font-bold p-2">The Footer Bar</div>
-        <div className="bg-gray-800 text-gray-500 text-sm min-h-[66px] flex items-center justify-center">
-          The kind of words and stuff you'd find in a footer.
-        </div>
+         {/* Comment Section */}
+      {/* <CommentLayout type="course" productId={dataFromServer._id} /> */}
       </div>
     </div>
   )
