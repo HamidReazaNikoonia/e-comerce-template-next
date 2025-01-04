@@ -23,6 +23,10 @@ import TeacherInfoSection from '../SpecificCoursePage/TeacherInfoSection';
 import CommenCourseSwiper from '../SpecificCoursePage/CommenCourseSwiper';
 import CommentLayout from '@/components/Comment';
 
+
+// utils
+import useResponsiveEvent from '@/hooks/useResponsiveEvent'; // Adjust the path
+
 moment.loadPersian({ usePersianDigits: true });
 
 
@@ -30,6 +34,7 @@ export default function StickyComponent({ dataFromServer }: { dataFromServer: IC
   const stickyRef = useRef<HTMLDivElement>(null)
   const footerRef = useRef<HTMLDivElement>(null)
   const [isSticky, setIsSticky] = useState(false)
+  const isMobileScreen = useResponsiveEvent(768, 200);
 
 
   const addToCart = useCartStore(state => state.addToCart)
@@ -54,9 +59,9 @@ export default function StickyComponent({ dataFromServer }: { dataFromServer: IC
       }
     }
 
-    window.addEventListener('scroll', handleScroll)
+    !isMobileScreen && window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+  }, [isMobileScreen])
 
 
   const { price, course_duration, course_type, course_subject_header, is_have_licence, score } = dataFromServer;
@@ -99,7 +104,7 @@ export default function StickyComponent({ dataFromServer }: { dataFromServer: IC
       <div className="flex flex-col-reverse md:flex-row">
 
         {/* Left Side (Sticky Side Bar) */}
-        <div className="md:w-1/3 space-y-6 mt-6 md:mt-0">
+        <div className="md:w-1/3 space-y-6 mt-6 md:mt-0 px-4 md:px-0">
 
 
 
@@ -339,7 +344,7 @@ export default function StickyComponent({ dataFromServer }: { dataFromServer: IC
 
         {/* Rigth Side */}
         <div className="md:w-2/3">
-          <div className='flex flex-col justify-center items-center px-4 md:px-8'>
+          <div className='flex flex-col justify-center items-center px-0 md:px-8'>
             {/* Thumb Image */}
             <div>
               <Image alt="" width={700} height={450} src={SampleImage} />
@@ -373,7 +378,7 @@ export default function StickyComponent({ dataFromServer }: { dataFromServer: IC
 
 
             {/* Commen Course Swiper Section */}
-            <div className='w-full bg-[#1c1c1c] px-0 pt-10 rounded-lg pb-3'>
+            <div className='w-full bg-[#1c1c1c] px-4 md:px-0 pt-10 rounded-lg pb-3'>
               <CommenCourseSwiper />
             </div>
 

@@ -1,9 +1,14 @@
+'use client';
 import React from 'react';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 // import required modules
 import { Pagination, Navigation, FreeMode } from 'swiper/modules';
+
+// utils
+import useResponsiveEvent from '@/hooks/useResponsiveEvent'; // Adjust the path
+
 
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
@@ -13,9 +18,12 @@ import './styles.css';
 
 
 export default function CommenCourseSwiper() {
+
+  const isMobileScreen = useResponsiveEvent(768, 200);
   return (
     <>
-      <Swiper slidesPerView={2}
+      <Swiper 
+        slidesPerView={isMobileScreen ? 1 : 2}
         spaceBetween={20}
         freeMode={true}
         pagination={{
