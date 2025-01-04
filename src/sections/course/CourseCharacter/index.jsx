@@ -5,8 +5,8 @@ import { WalletMinimal, Headset, Clock } from 'lucide-react';
 export default function CourseCharacter() {
   return (
     <>
-      <div className='w-full flex justify-around mt-8 mb-16 bg-[#1c1c1c] py-4 px-4 rounded-lg'>
-        <div className='flex items-center'>
+      <div className='w-full flex flex-col md:flex-row justify-around mt-8 mb-6 md:mb-16 bg-[#1c1c1c] py-4 px-4 rounded-lg'>
+        <div className='flex items-center justify-end mb-5 md:mb-0'>
           <div className='text-[13px] text-right pr-4 leading-7 font-medium w-44'>
             بازگشت وجه درصورت عدم رضایـت از دوره آموزشی
           </div>
@@ -24,7 +24,7 @@ export default function CourseCharacter() {
 
 
 
-        <div className='flex items-center'>
+        <div className='flex items-center justify-end mb-5 md:mb-0'>
           <div className='text-[13px] text-right pr-4 leading-7 font-medium w-36'>
             پشتیبانی ۲ ساله برای پاسخ به سوالات
           </div>
@@ -43,7 +43,7 @@ export default function CourseCharacter() {
 
 
 
-        <div className='flex items-center'>
+        <div className='flex items-center justify-end'>
           <div className='text-[13px] text-right pr-4 leading-7 font-medium w-44'>
             دسترسی همیشگی به محتوای آفلاین آموزشی
           </div>

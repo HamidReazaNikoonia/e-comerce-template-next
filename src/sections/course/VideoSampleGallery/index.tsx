@@ -18,8 +18,8 @@ export default function VideoSampleGallery() {
 
 
         {/* Video Items */}
-        <div className='flex flex-col md:flex-row flex-wrap w-full mt-8'>
-          <article className="w-1/3  p-3">
+        <div className='flex  md:flex-row flex-wrap w-full mt-8'>
+          <article className=" w-1/2 md:w-1/3 p-2  md:p-3 mb-3 md:mb-0">
             <div className=" flex items-end overflow-hidden rounded-xl">
               <video className="h-full w-full rounded-lg" controls muted>
                 <source src="https://docs.material-tailwind.com/demo.mp4" type="video/mp4" />
@@ -30,7 +30,7 @@ export default function VideoSampleGallery() {
             <div className='text-white text-center mt-2 text-xs'>عنوان</div>
           </article>
 
-          <article className="w-1/3 p-3 ">
+          <article className="w-1/2 md:w-1/3 p-2 md:p-3 mb-3 md:mb-0">
             <div className=" flex items-end overflow-hidden rounded-xl">
               <video className="h-full w-full rounded-lg" controls muted>
                 <source src="https://docs.material-tailwind.com/demo.mp4" type="video/mp4" />
@@ -42,7 +42,7 @@ export default function VideoSampleGallery() {
           </article>
 
 
-          <article className="w-1/3 p-3 ">
+          <article className="w-1/2 md:w-1/3 p-2 md:p-3 mb-3 md:mb-0">
             <div className=" flex items-end overflow-hidden rounded-xl">
               <video className="h-full w-full rounded-lg" controls muted>
                 <source src="https://docs.material-tailwind.com/demo.mp4" type="video/mp4" />

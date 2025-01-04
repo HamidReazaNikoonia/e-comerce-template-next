@@ -96,7 +96,7 @@ export default function StickyComponent({ dataFromServer }: { dataFromServer: IC
 
   return (
     <div className=" mt-12">
-      <div className="flex flex-col md:flex-row">
+      <div className="flex flex-col-reverse md:flex-row">
 
         {/* Left Side (Sticky Side Bar) */}
         <div className="md:w-1/3 space-y-6 mt-6 md:mt-0">
@@ -339,7 +339,7 @@ export default function StickyComponent({ dataFromServer }: { dataFromServer: IC
 
         {/* Rigth Side */}
         <div className="md:w-2/3">
-          <div className='flex flex-col justify-center items-center px-8'>
+          <div className='flex flex-col justify-center items-center px-4 md:px-8'>
             {/* Thumb Image */}
             <div>
               <Image alt="" width={700} height={450} src={SampleImage} />

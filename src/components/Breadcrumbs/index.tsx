@@ -13,7 +13,7 @@ export default function Breadcrumbs({ levels }) {
           <li className='ml-2'>
             <div className=' items-center flex'>
 
-              <a className=' font-medium text-sm'>
+              <a className='font-normal text-xs md:font-medium md:text-sm '>
                 {levels[2]?.title}
               </a>
               <ChevronLeft size={18} className='ml-1' />
@@ -25,7 +25,7 @@ export default function Breadcrumbs({ levels }) {
           <li className='ml-2'>
             <div className=' items-center flex'>
 
-              <a className=' font-medium text-sm'>
+              <a className='font-normal text-xs md:font-medium md:text-sm '>
                 {levels[1]?.title}
               </a>
               <ChevronLeft size={18} className='ml-1' />
@@ -37,7 +37,7 @@ export default function Breadcrumbs({ levels }) {
           <li className='ml-2 '>
             <div className=' items-center flex'>
 
-              <Link href={levels[0]?.link} className=' font-medium text-sm'>
+              <Link href={levels[0]?.link} className=' font-normal text-xs md:font-medium md:text-sm '>
 
                 {levels[0]?.title}
               </Link>
@@ -49,9 +49,9 @@ export default function Breadcrumbs({ levels }) {
 
         {/* Header Title */}
         <li className='inline-flex items-center'>
-          <Link href="/" className=' font-medium text-sm inline-flex ml-2'>
+          <Link href="/" className='font-normal text-xs md:font-medium md:text-sm  inline-flex ml-2'>
             خانه
-            <House size={18} className='text-sm ml-2' />
+            <House size={18} className='font-normal text-xs md:font-medium md:text-sm  ml-2' />
           </Link>
         </li>
       </ol>
