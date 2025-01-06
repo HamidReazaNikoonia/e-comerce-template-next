@@ -22,9 +22,9 @@ export default async function Layout(props: {
     <>
       {/* <DemoBanner /> */}
         <Navbar />
-        <div className="">{props.children}</div>
+        <div className="pt-16">{props.children}</div>
          {/* Footer */}
-         <Footer />
+         {/* <Footer /> */}
     </>
   );
 }

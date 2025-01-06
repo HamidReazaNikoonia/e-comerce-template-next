@@ -8,8 +8,7 @@ import localFont from 'next/font/local'
 
 import { Toaster } from "react-hot-toast";
 
-// components
-import Footer from '@/templates/Footer';
+
 
 // Provider
 import ReactQueryProvider from '@/provider/ReactQueryProvider';
@@ -81,8 +80,7 @@ export default async function RootLayout(props: {
 
           {/* <DemoBadge /> */}
 
-          {/* Footer */}
-            <Footer />
+         
         </NextIntlClientProvider>
         </ReactQueryProvider>
       </body>
