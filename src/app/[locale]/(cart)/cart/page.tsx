@@ -1,8 +1,15 @@
 'use client'
 
 import React, { useState } from 'react'
-import { Plus, Minus, Trash2, ChevronDown, X } from 'lucide-react'
 import Image from 'next/image'
+import { Plus, Minus, Trash2, ChevronDown, X } from 'lucide-react'
+import AddressSelector from '@/sections/cart/AddressSelector';
+// utils
+
+import { filterPriceNumber } from '@/utils/Helpers';
+import useResponsiveEvent from '@/hooks/useResponsiveEvent';
+import clsx from 'clsx';
+
 
 const initialCartItems = [
   { id: 1, name: 'Wireless Earbuds', price: 79.99, quantity: 2, image: '/placeholder.svg?height=80&width=80' },
@@ -19,12 +26,12 @@ const initialCartItems = [
   { id: 2, name: 'Smart Watch', price: 129.99, quantity: 1, image: '/placeholder.svg?height=80&width=80' },
   { id: 2, name: 'Smart Watch', price: 129.99, quantity: 1, image: '/placeholder.svg?height=80&width=80' },
   { id: 2, name: 'Smart Watch', price: 129.99, quantity: 1, image: '/placeholder.svg?height=80&width=80' },
-  
+
   { id: 3, name: 'Portable Charger', price: 39.99, quantity: 3, image: '/placeholder.svg?height=80&width=80' },
 ]
 
 const addresses = [
-  { id: 1, name: 'Home', street: '123 Main St', city: 'Anytown', state: 'CA', zip: '12345' },
+  { id: 1, name: 'خانه', street: 'پردیسان, استقلال ۲ - بلوک حضرت الخدیجه - واحد ۲ پلاک ۶ منزل آقای نیکونیا ی عزیز', city: 'قم', state: '', zip: '12345' },
   { id: 2, name: 'Work', street: '456 Office Blvd', city: 'Workville', state: 'NY', zip: '67890' },
 ]
 
@@ -88,55 +95,12 @@ const CartItemComponent: React.FC<{
   )
 }
 
-const AddressSelector: React.FC<{
-  addresses: Address[]
-  selectedAddress: Address | null
-  onSelectAddress: (address: Address) => void
-}> = ({ addresses, selectedAddress, onSelectAddress }) => {
-  const [isOpen, setIsOpen] = useState(false)
-
-  return (
-    <div className="relative">
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="w-full p-3 text-left bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-      >
-        {selectedAddress ? (
-          <div>
-            <p className="font-semibold">{selectedAddress.name}</p>
-            <p className="text-sm text-gray-600">{selectedAddress.street}</p>
-            <p className="text-sm text-gray-600">{`${selectedAddress.city}, ${selectedAddress.state} ${selectedAddress.zip}`}</p>
-          </div>
-        ) : (
-          <p className="text-gray-500">Select an address</p>
-        )}
-        <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2" />
-      </button>
-      {isOpen && (
-        <div className="absolute z-10 w-full mt-2 bg-white border border-gray-300 rounded-lg shadow-lg">
-          {addresses.map((address) => (
-            <button
-              key={address.id}
-              onClick={() => {
-                onSelectAddress(address)
-                setIsOpen(false)
-              }}
-              className="w-full p-3 text-left hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
-            >
-              <p className="font-semibold">{address.name}</p>
-              <p className="text-sm text-gray-600">{address.street}</p>
-              <p className="text-sm text-gray-600">{`${address.city}, ${address.state} ${address.zip}`}</p>
-            </button>
-          ))}
-        </div>
-      )}
-    </div>
-  )
-}
 
 export default function ShoppingCart() {
   const [cartItems, setCartItems] = useState<CartItem[]>(initialCartItems)
   const [selectedAddress, setSelectedAddress] = useState<Address | null>(null)
+
+  const isMobileScreen = useResponsiveEvent(768, 200);
 
   const updateQuantity = (id: number, newQuantity: number) => {
     setCartItems(prevItems =>
@@ -160,7 +124,7 @@ export default function ShoppingCart() {
 
   return (
     <div className="w-full bg-gray-100 min-h-screen">
-      <div className="max-w-7xl mx-auto p-6">
+      <div className="mx-auto px-4 py-8">
         {/* <h2 dir='rtl' className="text-3xl text-right font-bold mb-6 text-gray-800">
         <X size={34} />
         </h2> */}
@@ -172,7 +136,7 @@ export default function ShoppingCart() {
             </button>
           </div>
         ) : (
-          <div className="flex flex-col lg:flex-row gap-8">
+          <div className="flex flex-col md:flex-row gap-8 mr-0 lg:mr-8">
             <div className="lg:w-2/3 bg-white rounded-xl shadow-lg p-6">
               <h3 className="text-xl font-semibold mb-4">Cart Items</h3>
               <div className="space-y-4">
@@ -186,43 +150,69 @@ export default function ShoppingCart() {
                 ))}
               </div>
             </div>
-            <div className="lg:w-1/3 space-y-6">
+
+            {/* SideBar */}
+            <div className={clsx("lg:w-1/3 space-y-6 border right-2", !isMobileScreen && 'fixed')} >
               <div className="bg-white rounded-xl shadow-lg p-6">
-                <h3 className="text-xl font-semibold mb-4">Delivery Address</h3>
                 <AddressSelector
                   addresses={addresses}
                   selectedAddress={selectedAddress}
                   onSelectAddress={setSelectedAddress}
                 />
+
               </div>
-              <div className="bg-white rounded-xl shadow-lg p-6">
-                <h3 className="text-xl font-semibold mb-4">Order Summary</h3>
-                <div className="space-y-2 mb-4">
+              <div className="bg-white rounded-xl shadow-lg p-6 text-right">
+                <h3 className="text-md font-semibold mb-4">فاکتور</h3>
+                <div className="space-y-2 mb-4 text-sm">
                   <div className="flex justify-between">
-                    <span>Subtotal</span>
-                    <span>${subtotal.toFixed(2)}</span>
+                    <span>
+                      <div dir='rtl' className="flex items-center">
+                        {filterPriceNumber(subtotal)}<span className="text-sm mr-1">تومان</span>
+                      </div>
+                    </span>
+                    <span className=''>جمع کل</span>
                   </div>
                   <div className="flex justify-between">
-                    <span>Tax</span>
-                    <span>${tax.toFixed(2)}</span>
+                    <span>
+                      <div dir='rtl' className="flex items-center">
+                        {filterPriceNumber(tax)}<span className="text-sm mr-1">تومان</span>
+                      </div>
+                    </span>
+                    <span className=''> مالیات</span>
                   </div>
                   <div className="flex justify-between">
-                    <span>Shipping Fee</span>
-                    <span>${shippingFee.toFixed(2)}</span>
+                    <span>
+                      <div dir='rtl' className="flex items-center">
+                        {filterPriceNumber(shippingFee)}<span className="text-sm mr-1">تومان</span>
+                      </div>
+                    </span>
+                    <span className=''>هزینه ارسال</span>
                   </div>
                   <div className="border-t pt-2 mt-2">
-                    <div className="flex justify-between font-semibold text-lg">
-                      <span>Total</span>
-                      <span>${total.toFixed(2)}</span>
+                    <div className="flex justify-between font-semibold text-lg text-[#137f3b]">
+                    <span>
+                      <div dir='rtl' className="flex items-center">
+                        {filterPriceNumber(total)}<span className="text-sm mr-1">تومان</span>
+                      </div>
+                    </span>
+                      <span>جمع کل</span>
                     </div>
                   </div>
                 </div>
-                <button 
-                  className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-4 rounded-lg transition-colors duration-200"
+                <div className='flex flex-col md:flex-row space-y-2 md:space-y-0 justify-between'>
+                <button
+                  className=" w-full md:w-60  bg-purple-800 hover:bg-blue-600 text-white font-bold py-3 px-4 rounded-lg transition-colors duration-200"
                   disabled={!selectedAddress}
                 >
-                  Proceed to Checkout
+                   ادامه خرید 
                 </button>
+                <button
+                  className="w-full md:w-32 bg-red-500 hover:bg-red-400 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-200"
+                  disabled={!selectedAddress}
+                >
+                   بازگشت  
+                </button>
+                </div>
                 {!selectedAddress && (
                   <p className="text-sm text-red-500 mt-2">Please select a delivery address to proceed.</p>
                 )}
