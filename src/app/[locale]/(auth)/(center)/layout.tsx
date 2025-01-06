@@ -9,7 +9,7 @@ export default async function CenteredLayout(props: { children: React.ReactNode 
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center">
+    <div className="w-full">
       {props.children}
     </div>
   );
