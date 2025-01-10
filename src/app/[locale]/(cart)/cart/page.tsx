@@ -7,16 +7,21 @@ import { Plus, Minus, Trash2, ChevronDown, X } from 'lucide-react'
 import AddressSelector from '@/sections/cart/AddressSelector';
 // utils
 
+// components
+import LoadingSpinner from '@/components/LoadingSpiner';
 import CustomImage from "@/components/CustomImage";
 
 import { filterPriceNumber } from '@/utils/Helpers';
 import useResponsiveEvent from '@/hooks/useResponsiveEvent';
 import clsx from 'clsx';
 
+// assets
+import emptyCartSvg from '@/public/assets/svg/empty_cart.svg';
+
 
 // API
-import { getUserCartRequest, updateUserCartRequest } from '@/API/cart';
-import { arguments } from 'assert';
+import { getUserCartRequest, updateUserCartRequest, deleteProductInCartRequest } from '@/API/cart';
+import Link from 'next/link';
 
 
 const initialCartItems = [
@@ -66,7 +71,7 @@ const CartItemComponent: React.FC<{
   incrementButtonLoading?: boolean,
   decrementButtonLoading?: boolean,
   onUpdateQuantity: (_id: string, newQuantity: number) => void
-  onRemove: (id: number) => void
+  onRemove: (id: string) => void
 }> = ({ item, onUpdateQuantity, onRemove, incrementButtonLoading, decrementButtonLoading, quantityLoading }) => {
   
   return (
@@ -157,7 +162,17 @@ export default function ShoppingCart() {
       setquantityChangeLoading(null);
       
     },
+  });
+
+  const deleteItemMutation = useMutation({
+    mutationFn: deleteProductInCartRequest,
+    onSuccess: () => {
+      // @ts-expect-error
+      queryClient.invalidateQueries("cart");
+
+    },
   })
+
 
 
   useEffect(() => {
@@ -192,8 +207,9 @@ export default function ShoppingCart() {
     mutation.mutate({productId: id, quantity: newQuantity});
   }
 
-  const removeItem = (id: number) => {
+  const removeItem = (id: string) => {
     // setCartItems(prevItems => prevItems.filter(item => item.id !== id))
+    deleteItemMutation.mutate({cartItemId: id})
   }
 
   // const subtotal = cartItems.reduce(
@@ -212,12 +228,20 @@ export default function ShoppingCart() {
         {/* <h2 dir='rtl' className="text-3xl text-right font-bold mb-6 text-gray-800">
         <X size={34} />
         </h2> */}
-        {cartItemFiltered && cartItemFiltered.length === 0 ? (
-          <div className="text-center py-12 bg-white rounded-xl shadow-lg">
-            <p className="text-xl text-gray-500 mb-4">سبد شما خالی میباشد</p>
-            <button className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200">
+        <div className=''>
+          {isDataExist ? (
+            <>
+              {cartItemFiltered && cartItemFiltered.length === 0 ? (
+          <div className="text-center py-32 bg-white rounded-xl shadow-lg">
+            <div className='flex justify-center'>
+              <Image alt="" width="200" height="200" src={emptyCartSvg} />
+            </div>
+            <p className="text-xl text-gray-500 mb-12 mt-6">سبد شما خالی میباشد</p>
+            <Link href="/product">
+            <button className="w-60 cursor-pointer  bg-purple-800 hover:bg-blue-600 text-white font-bold py-3 px-4 rounded-lg transition-colors duration-200">
               ادامه خرید
             </button>
+            </Link>
           </div>
         ) : (
           <div className="flex flex-col md:flex-row gap-8 mr-0 lg:mr-8">
@@ -306,6 +330,11 @@ export default function ShoppingCart() {
             </div>
           </div>
         )}
+            </>
+          ) : (
+            <LoadingSpinner />
+          )}
+        </div>
       </div>
     </div>
   )

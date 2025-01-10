@@ -59,6 +59,28 @@ async function updateUserCart({productId, quantity}: {productId: string, quantit
 }
 
 
+async function deleteProductInCart({cartItemId}: {cartItemId: string}) {
+  const options = {
+    method: "DELETE",
+    headers: {
+      accept: "application/json",
+      'Content-Type': 'application/json',
+      Authorization:
+        `Bearer ${API_TOKEN}`,
+    }
+  };
+
+  const response = fetch(
+    `${API_BASE_URL}/cart/${cartItemId}`,
+    options
+  )
+    .then((response) => response.json())
+    .catch((err) => console.error(err));
+
+  return response;
+}
+
+
 
 
 // async function getProducts(params: FilterParams = {}): Promise<ProductsResponse> {
@@ -151,6 +173,10 @@ export async function updateUserCartRequest(body: {productId: string, quantity: 
   return data;
 }
 
+export async function deleteProductInCartRequest(body: {cartItemId: string}) {
+  const data = await deleteProductInCart(body);
+  return data;
+}
 
 
 // export async function getCommentsRequest({page, productId}) {
