@@ -1,27 +1,43 @@
 'use client'
 
 import React, { useState, useEffect } from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { X, Search, ShoppingBasket, Menu, ChevronDown } from 'lucide-react';
 
 import { useCartStore } from '@/_store/Cart';
+import { getUserCartRequest } from "@/API/cart";
+import Link from "next/link";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [productCountBadge, setproductCountBadge] = useState(0);
+  const [productCountBadge, setproductCountBadge] = useState();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
 
 
 
-  const cart = useCartStore(state => state.cart)
+  const { data } = useQuery({
+    queryFn: async () => getUserCartRequest(),
+    queryKey: ["cart"], //Array according to Documentation
+  });
+
+
+
+
+  const cart = useCartStore(state => state.cart);
 
 
   useEffect(() => {
-    if (cart && Array.isArray(cart) && cart.length !== 0) {
-      setproductCountBadge(cart.length ? cart.length : 0);
+    if (data?.cartItem) {
+      setproductCountBadge(data?.cartItem?.length || 0);
+    } else if (cart) {
+      if (Array.isArray(cart) && cart.length !== 0) {
+        // @ts-ignore
+        setproductCountBadge(cart.length ? cart.length : 0);
+      }
     }
-  }, [cart])
+  }, [data]);
 
 
   /**
@@ -43,11 +59,6 @@ const Navbar = () => {
   const handleSearchToggle = () => {
     setIsSearching(!isSearching);
   };
-
-
-  const handleCart = () => {
-    console.log(cart);
-  }
 
   return (
     <nav className="bg-gray-800 text-white fixed z-50 w-dvw">
@@ -85,12 +96,13 @@ const Navbar = () => {
               </button>
 
               <div className="relative inline-flex">
+                <Link href='/cart' alt="go to cart items" >
                 <button
                   className="bg-purple-800 hover:bg-blue-600 px-4 py-2 rounded text-sm"
-                  onClick={handleCart}
                 >
                   <ShoppingBasket />
                 </button>
+                </Link>
                 {productCountBadge && (
                   <span className="absolute top-0.5 right-0.5 grid min-h-[24px] min-w-[24px] translate-x-2/4 -translate-y-2/4 place-items-center rounded-full bg-red-600 py-1 px-1 text-xs text-white">
                     {productCountBadge}
