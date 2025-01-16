@@ -1,7 +1,7 @@
 import { IProduct } from '@/types/Product';
 
 const API_BASE_URL = 'http://localhost:9000/v1';
-const API_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NzJmM2FhMjVhOWVjZjJlYjdkYzFlYWIiLCJpYXQiOjE3MzYxNjkyNDMsImV4cCI6MTczNjcwOTI0MywidHlwZSI6ImFjY2VzcyJ9.6MwZFOepjoNGJTiaiQt8PTcxQN6WKoC4LmDzYRGMSKo';
+const API_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NzJmM2FhMjVhOWVjZjJlYjdkYzFlYWIiLCJpYXQiOjE3MzY3MDkzNjgsImV4cCI6MTczNzI0OTM2OCwidHlwZSI6ImFjY2VzcyJ9._nWLL6tKWCuSZVVeMAtxBSGZAKv8E4DudnHpTLsc2-E';
 
 
 

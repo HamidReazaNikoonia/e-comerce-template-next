@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
+import Link from 'next/link';
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import Image from 'next/image'
 import { Plus, Minus, Trash2, ChevronDown, X } from 'lucide-react'
@@ -21,7 +22,12 @@ import emptyCartSvg from '@/public/assets/svg/empty_cart.svg';
 
 // API
 import { getUserCartRequest, updateUserCartRequest, deleteProductInCartRequest } from '@/API/cart';
-import Link from 'next/link';
+import {getUserAddressRequest, submitAddresRequest} from '@/API/order/address';
+
+
+// types
+import { Address, AddressResponse } from '@/types/Product';
+import toast from 'react-hot-toast';
 
 
 const initialCartItems = [
@@ -56,14 +62,14 @@ interface CartItem {
   image: string
 }
 
-interface Address {
-  _id: number
-  name: string
-  street: string
-  city: string
-  state: string
-  zip: string
-}
+// interface Address {
+//   _id: number
+//   name: string
+//   street: string
+//   city: string
+//   state: string
+//   zip: string
+// }
 
 const CartItemComponent: React.FC<{
   item: CartItem,
@@ -136,7 +142,7 @@ const CartItemComponent: React.FC<{
 
 export default function ShoppingCart() {
   // const [cartItems, setCartItems] = useState<CartItem[]>(initialCartItems)
-  const [selectedAddress, setSelectedAddress] = useState<Address | null>(null)
+  const [selectedAddress, setSelectedAddress] = useState<AddressResponse | null>(null)
   const [cartItemFiltered, setcartItemFiltered] = useState();
   const [totalPriceValue, settotalPriceValue] = useState(0);
   const [quantityChangeLoading, setquantityChangeLoading] = useState<string | null>(null)
@@ -148,9 +154,17 @@ export default function ShoppingCart() {
   const isMobileScreen = useResponsiveEvent(768, 200);
 
 
+  // Get Cartd Items from API
   const { data, isLoading, isError, isSuccess, error } = useQuery({
     queryFn: async () => getUserCartRequest(),
     queryKey: ["cart"], //Array according to Documentation
+  });
+
+
+  // Get User Address From API
+  const { data: addressData, isLoading: addressIsLoading, isError: addressIsError, isSuccess: addressIsSuccess } = useQuery({
+    queryFn: async () => getUserAddressRequest(),
+    queryKey: ["order::address"], //Array according to Documentation
   });
 
 
@@ -172,6 +186,47 @@ export default function ShoppingCart() {
 
     },
   })
+
+
+  const submitAddressMutation = useMutation({
+    mutationFn: submitAddresRequest,
+    onSuccess: (res) => {
+      // @ts-expect-error
+      queryClient.invalidateQueries("order::address");
+      if(res && res.billingAddress) {
+        setSelectedAddress(res || addressData[0]);
+      }
+      console.log({response: res})
+      
+    },
+  });
+
+  // Address Efects
+  useEffect(() => {
+
+    if (addressIsSuccess) {
+      console.log({address: addressData});
+      // setSelectedAddress(addressData[0])
+    }
+    
+  
+  }, [addressData, addressIsSuccess])
+  
+
+
+  useEffect(() => {
+
+    if (submitAddressMutation.isSuccess) {
+        toast.success('آدرس شما با موفقیت ثبت شد')
+    }
+    
+
+    if (submitAddressMutation.isError) {
+      toast.error('متاسفانه آدرس شما ثبت نشد')
+      toast.error('مشکلی پیش آمده , دوباره امتحان کنید')
+    }
+  
+  }, [submitAddressMutation.isSuccess, submitAddressMutation.isError])
 
 
 
@@ -212,6 +267,29 @@ export default function ShoppingCart() {
     deleteItemMutation.mutate({cartItemId: id})
   }
 
+
+  const submitAddressFormHandler = (address: Address) => {
+
+    // Submit API
+    submitAddressMutation.mutate({
+      addressLine1: address.address,
+      state: address.state,
+      city: address.city,
+      postalCode: address.postalCode,
+      title: address.title
+    })
+
+
+    console.log({es: address})
+
+  }
+
+
+  // Payment process
+  const continuePaymentHandler = () => {
+    console.log(selectedAddress)
+  }
+
   // const subtotal = cartItems.reduce(
   //   (sum, item) => sum + item.price * item.quantity,
   //   0
@@ -221,6 +299,7 @@ export default function ShoppingCart() {
   const total = totalPriceValue + tax + shippingFee
 
   const isDataExist = isSuccess && data && cartItemFiltered;
+  const isAddressDataExist = addressIsSuccess && addressData && Array.isArray(addressData);
 
   return (
     <div className="w-full bg-gray-100 min-h-screen">
@@ -261,10 +340,12 @@ export default function ShoppingCart() {
             </div>
 
             {/* SideBar */}
-            <div className={clsx("lg:w-1/3 space-y-3 right-2", !isMobileScreen && 'fixed')} >
+            <div className={clsx("lg:w-1/3 space-y-3 right-2 z-30", !isMobileScreen && 'fixed')} >
               <div className="bg-white rounded-xl shadow-lg p-6">
                 <AddressSelector
-                  addresses={addresses}
+                  isAddressDataExist={isAddressDataExist}
+                  addresses={addressData}
+                  onSubmitAddressForm={submitAddressFormHandler}
                   selectedAddress={selectedAddress}
                   onSelectAddress={setSelectedAddress}
                 />
@@ -310,6 +391,7 @@ export default function ShoppingCart() {
                 </div>
                 <div className='flex flex-col md:flex-row space-y-2 md:space-y-0 justify-between'>
                   <button
+                    onClick={continuePaymentHandler}
                     className=" w-full md:w-60 cursor-pointer  bg-purple-800 hover:bg-blue-600 text-white font-bold py-3 px-4 rounded-lg transition-colors duration-200"
                     disabled={!selectedAddress}
                   >

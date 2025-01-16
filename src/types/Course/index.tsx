@@ -1,4 +1,5 @@
 export interface ICourseTypes {
+  _id: string;
   createdAt: any;
   title: string;
   sub_title?: string;

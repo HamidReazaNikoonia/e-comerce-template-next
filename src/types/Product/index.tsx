@@ -34,3 +34,31 @@ export interface IProduct {
     percent: number
   }
 }
+
+
+export interface Address {
+  _id?: number
+  title?: string
+  address?: string
+  addressLine1?: string;
+  city: number
+  state: string
+  postalCode: string
+}
+
+
+export interface AddressResponse {
+    billingAddress: {
+        country: string,
+        addressLine1: string,
+        city: number,
+        state: number,
+        postalCode: string
+    },
+    _id: string,
+    customer: string,
+    createdAt: string,
+    updatedAt: string,
+    __v: any
+
+}
