@@ -144,6 +144,11 @@ export default function ShoppingCart() {
   // const [cartItems, setCartItems] = useState<CartItem[]>(initialCartItems)
   const [selectedAddress, setSelectedAddress] = useState<AddressResponse | null>(null)
   const [cartItemFiltered, setcartItemFiltered] = useState();
+
+  // we have 2 kind of products [Product, course]
+  // when `isProductExistInTheList` is true, it means there are actuall product in the cart
+  // then we need to appear address UI and get the Address from user
+  const [isProductExistInTheList, setisProductExistInTheList] = useState(false);
   const [totalPriceValue, settotalPriceValue] = useState(0);
   const [quantityChangeLoading, setquantityChangeLoading] = useState<string | null>(null)
   const [taxPrice, settaxPrice] = useState();
@@ -243,6 +248,10 @@ export default function ShoppingCart() {
         }
       });
 
+      // check if `Product` Exist in the cartitems
+      const hasProductItemProperty = data.cartItem.some(item => 'productId' in item);
+      setisProductExistInTheList(hasProductItemProperty);
+
       setcartItemFiltered(cartItems);
       console.log({ iiii: cartItems })
     }
@@ -341,16 +350,18 @@ export default function ShoppingCart() {
 
             {/* SideBar */}
             <div className={clsx("lg:w-1/3 space-y-3 right-2 z-30", !isMobileScreen && 'fixed')} >
-              <div className="bg-white rounded-xl shadow-lg p-6">
-                <AddressSelector
-                  isAddressDataExist={isAddressDataExist}
-                  addresses={addressData}
-                  onSubmitAddressForm={submitAddressFormHandler}
-                  selectedAddress={selectedAddress}
-                  onSelectAddress={setSelectedAddress}
-                />
+             {isProductExistInTheList && (
+               <div className="bg-white rounded-xl shadow-lg p-6">
+               <AddressSelector
+                 isAddressDataExist={isAddressDataExist}
+                 addresses={addressData}
+                 onSubmitAddressForm={submitAddressFormHandler}
+                 selectedAddress={selectedAddress}
+                 onSelectAddress={setSelectedAddress}
+               />
 
-              </div>
+             </div>
+             )}
               <div className="bg-white rounded-xl shadow-lg p-6 text-right">
                 <h3 className="text-md font-semibold mb-4">فاکتور</h3>
                 <div className="space-y-2 mb-4 text-sm">
@@ -392,8 +403,8 @@ export default function ShoppingCart() {
                 <div className='flex flex-col md:flex-row space-y-2 md:space-y-0 justify-between'>
                   <button
                     onClick={continuePaymentHandler}
-                    className=" w-full md:w-60 cursor-pointer  bg-purple-800 hover:bg-blue-600 text-white font-bold py-3 px-4 rounded-lg transition-colors duration-200"
-                    disabled={!selectedAddress}
+                    className=" w-full md:w-60 cursor-pointer  bg-purple-800 hover:bg-blue-600 text-white font-bold py-3 px-4 rounded-lg transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                    disabled={(!selectedAddress && isProductExistInTheList)}
                   >
                     ادامه خرید
                   </button>
@@ -403,7 +414,7 @@ export default function ShoppingCart() {
                     بازگشت
                   </button>
                 </div>
-                {!selectedAddress && (
+                {(!selectedAddress && isProductExistInTheList) && (
                   <p className="text-xs text-red-500 mt-4">
                     لطفا یک آدرس انتخاب کنید
                   </p>
