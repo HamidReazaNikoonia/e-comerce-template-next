@@ -4,13 +4,13 @@ import React, { useEffect, useState } from 'react'
 import Link from 'next/link';
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import Image from 'next/image'
-import { Plus, Minus, Trash2, ChevronDown, X } from 'lucide-react'
+
 import AddressSelector from '@/sections/cart/AddressSelector';
 // utils
 
 // components
 import LoadingSpinner from '@/components/LoadingSpiner';
-import CustomImage from "@/components/CustomImage";
+
 
 import { filterPriceNumber } from '@/utils/Helpers';
 import useResponsiveEvent from '@/hooks/useResponsiveEvent';
@@ -28,6 +28,9 @@ import {getUserAddressRequest, submitAddresRequest} from '@/API/order/address';
 // types
 import { Address, AddressResponse } from '@/types/Product';
 import toast from 'react-hot-toast';
+import CartItemComponent from '@/sections/cart/CartList';
+import { submitCartToCreateOrderRequest } from '@/API/order/payment';
+import LoadingButton from '@/components/LoadingButton';
 
 
 const initialCartItems = [
@@ -54,13 +57,6 @@ const addresses = [
   { id: 2, name: 'Work', street: '456 Office Blvd', city: 'Workville', state: 'NY', zip: '67890' },
 ]
 
-interface CartItem {
-  _id: string;
-  name: string
-  price: number
-  quantity: number
-  image: string
-}
 
 // interface Address {
 //   _id: number
@@ -71,79 +67,13 @@ interface CartItem {
 //   zip: string
 // }
 
-const CartItemComponent: React.FC<{
-  item: CartItem,
-  quantityLoading?: boolean;
-  incrementButtonLoading?: boolean,
-  decrementButtonLoading?: boolean,
-  onUpdateQuantity: (_id: string, newQuantity: number) => void
-  onRemove: (id: string) => void
-}> = ({ item, onUpdateQuantity, onRemove, incrementButtonLoading, decrementButtonLoading, quantityLoading }) => {
-  
-  return (
-    <div className="flex items-center space-x-4 py-6 border-b border-gray-200 last:border-b-0">
-      <div className="flex-shrink-0 w-20 h-20 bg-gray-200 rounded-lg overflow-hidden">
-        <CustomImage fileName={item?.thumbnail?.file_name} className="object-cover" src={''} alt={''} />
-      </div>
-      <div className="flex-grow leading-10">
-        <h3 className="text-sm font-semibold text-gray-800">{item.title}</h3>
-        <div className="text-gray-600">
-          <span>
-            <div dir='rtl' className="flex items-center justify-end text-left">
-              {filterPriceNumber(item.price)}<span className="text-sm mr-1">تومان</span>
-            </div>
-          </span>
-        </div>
-      </div>
 
-      {!!item.productId && (
-        <>
-          <div className="flex items-center space-x-2">
-            <button
-              onClick={() => onUpdateQuantity(item?.productId._id, item.quantity - 1)}
-              disabled={(item.quantity <= 1 || quantityLoading)}
-              className="p-1 rounded-full bg-gray-200 hover:bg-gray-300 disabled:opacity-50 transition-colors duration-200"
-              aria-label="Decrease quantity"
-            >
-            {(decrementButtonLoading || quantityLoading) ? (<div className="animate-spin rounded-full h-4 w-4 border-b-2 border-gray-900"></div>) : (
-              <Minus className="w-4 h-4 text-gray-600" />
-            )}
-            </button>
-            <span className="font-semibold text-gray-800 w-8 text-center">{item.quantity}</span>
-            <button
-              onClick={() => onUpdateQuantity(item?.productId._id, item.quantity + 1)}
-              disabled={quantityLoading}
-              className="p-1 rounded-full bg-gray-200 hover:bg-gray-300 disabled:opacity-50 transition-colors duration-200"
-              aria-label="Increase quantity"
-            >
-               {(incrementButtonLoading || quantityLoading) ? (<div className="animate-spin rounded-full h-4 w-4 border-b-2 border-gray-900"></div>) : (
-              <Plus className="w-4 h-4 text-gray-600" />
-            )}
-            </button>
-          </div>
-
-
-        </>
-      )}
-
-      <button
-        onClick={() => onRemove(item._id)}
-        className="p-2 rounded-full bg-red-100 hover:bg-red-200 transition-colors duration-200"
-        aria-label="Remove item"
-      >
-        <Trash2 className="w-5 h-5 text-red-500" />
-      </button>
-
-
-    </div>
-  )
-}
 
 
 export default function ShoppingCart() {
   // const [cartItems, setCartItems] = useState<CartItem[]>(initialCartItems)
   const [selectedAddress, setSelectedAddress] = useState<AddressResponse | null>(null)
-  const [cartItemFiltered, setcartItemFiltered] = useState();
+  const [cartItemFiltered, setcartItemFiltered] = useState([]);
 
   // we have 2 kind of products [Product, course]
   // when `isProductExistInTheList` is true, it means there are actuall product in the cart
@@ -206,6 +136,35 @@ export default function ShoppingCart() {
     },
   });
 
+
+  const submitCartToCreateOrderMutation = useMutation({
+    mutationFn: submitCartToCreateOrderRequest,
+    onSuccess: (response) => {
+      // @ts-expect-error
+      queryClient.invalidateQueries("order");
+
+      // response = { newOrder, payment, transaction  }
+      if(response) {
+        // order created successfully
+        if (!response.newOrder) {
+            toast.error('خطایی رخ داده')
+        }
+
+        // navigate to the bank
+        if (response.payment && response.payment.code === 100) {
+          toast.success('شما در حال انتقال به بانک هستید');
+          window && window.location.replace(response.payment.url);
+        }
+        
+        
+      } else {
+        toast.error('خطای سرور')
+      }
+      console.log({response: response})
+      
+    },
+  });
+
   // Address Efects
   useEffect(() => {
 
@@ -236,8 +195,8 @@ export default function ShoppingCart() {
 
 
   useEffect(() => {
-    if (isSuccess) {
-      console.log({ kir: data });
+    if (isSuccess && data && data._id) {
+
 
       settotalPriceValue(data.totalPrice || 0);
       const cartItems = data.cartItem.map(item => {
@@ -296,7 +255,24 @@ export default function ShoppingCart() {
 
   // Payment process
   const continuePaymentHandler = () => {
-    console.log(selectedAddress)
+    console.log({selectedAddress, data});
+    // submit order API endpoint
+    // @params cartId
+    // @params shippingAddress
+    if (!data || !data?._id) {
+      toast.error('مشکلی به وجود آمده, لطفا صفحه را رفرش کنید');
+      return false;
+    }
+
+
+    if (!selectedAddress || !selectedAddress?._id) {
+      toast.error('مشکلی پیش آمده, لطفا صفحه را رفرش کنید');
+      toast.error('آدرس به درستی انتخاب نشده');
+      return false;
+    }
+    submitCartToCreateOrderMutation.mutate({cartId: data?._id, shippingAddress: selectedAddress._id});
+    toast.success('سفارش در حال ارسال');
+    return true;
   }
 
   // const subtotal = cartItems.reduce(
@@ -332,11 +308,12 @@ export default function ShoppingCart() {
             </Link>
           </div>
         ) : (
+          // List of Product In The Cart 
           <div className="flex flex-col md:flex-row gap-8 mr-0 lg:mr-8">
             <div className="lg:w-2/3 bg-white rounded-xl shadow-lg p-6">
               <h3 className="text-md text-right font-semibold mb-4">لیست محصولات</h3>
               <div className="space-y-4">
-                {isDataExist && cartItemFiltered.map(item => (
+                {(isDataExist && cartItemFiltered) && cartItemFiltered.map(item => (
                   <CartItemComponent
                     quantityLoading={item?.productId?._id === quantityChangeLoading}
                     key={item._id}
@@ -401,13 +378,16 @@ export default function ShoppingCart() {
                   </div>
                 </div>
                 <div className='flex flex-col md:flex-row space-y-2 md:space-y-0 justify-between'>
-                  <button
+                  {/* <button
                     onClick={continuePaymentHandler}
                     className=" w-full md:w-60 cursor-pointer  bg-purple-800 hover:bg-blue-600 text-white font-bold py-3 px-4 rounded-lg transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                     disabled={(!selectedAddress && isProductExistInTheList)}
                   >
                     ادامه خرید
-                  </button>
+                  </button> */}
+                  <LoadingButton onClick={continuePaymentHandler}  isLoading={submitCartToCreateOrderMutation.isPending} disabled={(!selectedAddress && isProductExistInTheList)} >
+                    ادامه خرید
+                  </LoadingButton>
                   <button
                     className="w-full md:w-32 cursor-pointer bg-red-500 hover:bg-red-400 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-200"
                   >
