@@ -1,8 +1,9 @@
 import { Address, IProduct, AddressResponse } from '@/types/Product';
 
-const API_BASE_URL = 'http://localhost:9000/v1';
-const API_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NzJmM2FhMjVhOWVjZjJlYjdkYzFlYWIiLCJpYXQiOjE3MzY3MDkzNjgsImV4cCI6MTczNzI0OTM2OCwidHlwZSI6ImFjY2VzcyJ9._nWLL6tKWCuSZVVeMAtxBSGZAKv8E4DudnHpTLsc2-E';
+import {SERVER_API_URL, SERVER_API_TOKEN} from '../../config';
 
+const API_BASE_URL = SERVER_API_URL;
+const API_TOKEN = SERVER_API_TOKEN;
 
 
 

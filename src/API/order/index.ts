@@ -1,6 +1,6 @@
 import { IProduct } from '@/types/Product';
 
-import {SERVER_API_URL, SERVER_API_TOKEN} from '../../config';
+import {SERVER_API_URL, SERVER_API_TOKEN} from '../config';
 
 const API_BASE_URL = SERVER_API_URL;
 const API_TOKEN = SERVER_API_TOKEN;
@@ -12,20 +12,19 @@ interface OrderResponse {
   }
 }
 
-async function submitCartToCreateOrder({cartId, shippingAddress}: {cartId: string, shippingAddress: string}) {
+async function getSpecificOrderById({ orderId }: {orderId: string}) {
   const options = {
-    method: "POST",
+    method: "GET",
     headers: {
       accept: "application/json",
       'Content-Type': 'application/json',
       Authorization:
         `Bearer ${API_TOKEN}`,
     },
-    body: JSON.stringify({shippingAddress, cartId})
   };
 
   const response = fetch(
-    `${API_BASE_URL}/order`,
+    `${API_BASE_URL}/order/${orderId}`,
     options
   )
     .then((response) => response.json())
@@ -117,8 +116,8 @@ async function submitCartToCreateOrder({cartId, shippingAddress}: {cartId: strin
 // }
 
 
-export async function submitCartToCreateOrderRequest(body: {cartId: string, shippingAddress: string}) {
-  const data = await submitCartToCreateOrder(body);
+export async function getSpecificOrderByIdRequest(body: {orderId: string}) {
+  const data = await getSpecificOrderById(body);
   return data;
 }
 

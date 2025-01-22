@@ -1,0 +1,2 @@
+export const SERVER_API_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NzJmM2FhMjVhOWVjZjJlYjdkYzFlYWIiLCJpYXQiOjE3MzczMjcxMzEsImV4cCI6MTczNzg2NzEzMSwidHlwZSI6ImFjY2VzcyJ9.sJz_EBP4KRwmopTXdPhMi0W9K1pqCauahm4dl1-FwzM';
+export const SERVER_API_URL = 'http://localhost:9000/v1'
