@@ -22,7 +22,7 @@ import emptyCartSvg from '@/public/assets/svg/empty_cart.svg';
 
 // API
 import { getUserCartRequest, updateUserCartRequest, deleteProductInCartRequest } from '@/API/cart';
-import {getUserAddressRequest, submitAddresRequest} from '@/API/order/address';
+import { getUserAddressRequest, submitAddresRequest } from '@/API/order/address';
 
 
 // types
@@ -81,6 +81,7 @@ export default function ShoppingCart() {
   const [isProductExistInTheList, setisProductExistInTheList] = useState(false);
   const [totalPriceValue, settotalPriceValue] = useState(0);
   const [quantityChangeLoading, setquantityChangeLoading] = useState<string | null>(null)
+  const [submitCartIsLoading, setsubmitCartIsLoading] = useState(false);
   const [taxPrice, settaxPrice] = useState();
 
   const queryClient = useQueryClient();
@@ -109,7 +110,7 @@ export default function ShoppingCart() {
       // @ts-expect-error
       queryClient.invalidateQueries("cart");
       setquantityChangeLoading(null);
-      
+
     },
   });
 
@@ -128,11 +129,13 @@ export default function ShoppingCart() {
     onSuccess: (res) => {
       // @ts-expect-error
       queryClient.invalidateQueries("order::address");
-      if(res && res.billingAddress) {
+      if (res && res.billingAddress) {
+        toast.success('آدرس شما ثبت شد');
+
         setSelectedAddress(res || addressData[0]);
       }
-      console.log({response: res})
-      
+      console.log({ response: res })
+
     },
   });
 
@@ -144,10 +147,11 @@ export default function ShoppingCart() {
       queryClient.invalidateQueries("order");
 
       // response = { newOrder, payment, transaction  }
-      if(response) {
+      if (response) {
         // order created successfully
         if (!response.newOrder) {
-            toast.error('خطایی رخ داده')
+          toast.error('خطایی رخ داده')
+          setsubmitCartIsLoading(false);
         }
 
         // navigate to the bank
@@ -155,13 +159,14 @@ export default function ShoppingCart() {
           toast.success('شما در حال انتقال به بانک هستید');
           window && window.location.replace(response.payment.url);
         }
-        
-        
+
+
       } else {
         toast.error('خطای سرور')
+        setsubmitCartIsLoading(false);
       }
-      console.log({response: response})
-      
+      console.log({ response: response })
+
     },
   });
 
@@ -169,27 +174,35 @@ export default function ShoppingCart() {
   useEffect(() => {
 
     if (addressIsSuccess) {
-      console.log({address: addressData});
+      console.log({ address: addressData });
       // setSelectedAddress(addressData[0])
     }
-    
-  
+
+
   }, [addressData, addressIsSuccess])
-  
+
+
+  // useEffect(() => {
+
+
+
+  // }, [submitCartToCreateOrderMutation.isPending])
+
+
 
 
   useEffect(() => {
 
     if (submitAddressMutation.isSuccess) {
-        toast.success('آدرس شما با موفقیت ثبت شد')
+      toast.success('آدرس شما با موفقیت ثبت شد')
     }
-    
+
 
     if (submitAddressMutation.isError) {
       toast.error('متاسفانه آدرس شما ثبت نشد')
       toast.error('مشکلی پیش آمده , دوباره امتحان کنید')
     }
-  
+
   }, [submitAddressMutation.isSuccess, submitAddressMutation.isError])
 
 
@@ -225,14 +238,14 @@ export default function ShoppingCart() {
     //     item.id === id ? { ...item, quantity: Math.max(newQuantity, 0) } : item
     //   )
     // )
-    console.log({aaa: id})
+    console.log({ aaa: id })
     setquantityChangeLoading(id);
-    mutation.mutate({productId: id, quantity: newQuantity});
+    mutation.mutate({ productId: id, quantity: newQuantity });
   }
 
   const removeItem = (id: string) => {
     // setCartItems(prevItems => prevItems.filter(item => item.id !== id))
-    deleteItemMutation.mutate({cartItemId: id})
+    deleteItemMutation.mutate({ cartItemId: id })
   }
 
 
@@ -248,29 +261,39 @@ export default function ShoppingCart() {
     })
 
 
-    console.log({es: address})
+    console.log({ es: address })
 
   }
 
 
   // Payment process
   const continuePaymentHandler = () => {
-    console.log({selectedAddress, data});
+    console.log({ selectedAddress, data });
+    setsubmitCartIsLoading(true);
     // submit order API endpoint
     // @params cartId
     // @params shippingAddress
     if (!data || !data?._id) {
+      setsubmitCartIsLoading(false);
       toast.error('مشکلی به وجود آمده, لطفا صفحه را رفرش کنید');
       return false;
     }
 
 
-    if (!selectedAddress || !selectedAddress?._id) {
-      toast.error('مشکلی پیش آمده, لطفا صفحه را رفرش کنید');
-      toast.error('آدرس به درستی انتخاب نشده');
-      return false;
+
+    // Product Exist in The Cart Items
+    // Means we should Validate Address 
+    if (isProductExistInTheList) {
+      if (!selectedAddress || !selectedAddress?._id) {
+        setsubmitCartIsLoading(false);
+        toast.error('مشکلی پیش آمده, لطفا صفحه را رفرش کنید');
+        toast.error('آدرس به درستی انتخاب نشده');
+        return false;
+      }
     }
-    submitCartToCreateOrderMutation.mutate({cartId: data?._id, shippingAddress: selectedAddress._id});
+
+
+    submitCartToCreateOrderMutation.mutate({ cartId: data?._id, ...(selectedAddress && {shippingAddress: selectedAddress._id}) });
     toast.success('سفارش در حال ارسال');
     return true;
   }
@@ -296,113 +319,113 @@ export default function ShoppingCart() {
           {isDataExist ? (
             <>
               {cartItemFiltered && cartItemFiltered.length === 0 ? (
-          <div className="text-center py-32 bg-white rounded-xl shadow-lg">
-            <div className='flex justify-center'>
-              <Image alt="" width="200" height="200" src={emptyCartSvg} />
-            </div>
-            <p className="text-xl text-gray-500 mb-12 mt-6">سبد شما خالی میباشد</p>
-            <Link href="/product">
-            <button className="w-60 cursor-pointer  bg-purple-800 hover:bg-blue-600 text-white font-bold py-3 px-4 rounded-lg transition-colors duration-200">
-              ادامه خرید
-            </button>
-            </Link>
-          </div>
-        ) : (
-          // List of Product In The Cart 
-          <div className="flex flex-col md:flex-row gap-8 mr-0 lg:mr-8">
-            <div className="lg:w-2/3 bg-white rounded-xl shadow-lg p-6">
-              <h3 className="text-md text-right font-semibold mb-4">لیست محصولات</h3>
-              <div className="space-y-4">
-                {(isDataExist && cartItemFiltered) && cartItemFiltered.map(item => (
-                  <CartItemComponent
-                    quantityLoading={item?.productId?._id === quantityChangeLoading}
-                    key={item._id}
-                    item={item}
-                    onUpdateQuantity={updateQuantity}
-                    onRemove={removeItem}
-                  />
-                ))}
-              </div>
-            </div>
-
-            {/* SideBar */}
-            <div className={clsx("lg:w-1/3 space-y-3 right-2 z-30", !isMobileScreen && 'fixed')} >
-             {isProductExistInTheList && (
-               <div className="bg-white rounded-xl shadow-lg p-6">
-               <AddressSelector
-                 isAddressDataExist={isAddressDataExist}
-                 addresses={addressData}
-                 onSubmitAddressForm={submitAddressFormHandler}
-                 selectedAddress={selectedAddress}
-                 onSelectAddress={setSelectedAddress}
-               />
-
-             </div>
-             )}
-              <div className="bg-white rounded-xl shadow-lg p-6 text-right">
-                <h3 className="text-md font-semibold mb-4">فاکتور</h3>
-                <div className="space-y-2 mb-4 text-sm">
-                  <div className="flex justify-between">
-                    <span>
-                      <div dir='rtl' className="flex items-center">
-                        {filterPriceNumber(totalPriceValue)}<span className="text-sm mr-1">تومان</span>
-                      </div>
-                    </span>
-                    <span className=''>جمع کل</span>
+                <div className="text-center py-32 bg-white rounded-xl shadow-lg">
+                  <div className='flex justify-center'>
+                    <Image alt="" width="200" height="200" src={emptyCartSvg} />
                   </div>
-                  <div className="flex justify-between">
-                    <span>
-                      <div dir='rtl' className="flex items-center">
-                        {filterPriceNumber(tax)}<span className="text-sm mr-1">تومان</span>
-                      </div>
-                    </span>
-                    <span className=''> مالیات</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>
-                      <div dir='rtl' className="flex items-center">
-                        {filterPriceNumber(shippingFee)}<span className="text-sm mr-1">تومان</span>
-                      </div>
-                    </span>
-                    <span className=''>هزینه ارسال</span>
-                  </div>
-                  <div className="border-t pt-2 mt-2">
-                    <div className="flex justify-between font-semibold text-lg text-[#137f3b]">
-                      <span>
-                        <div dir='rtl' className="flex items-center">
-                          {filterPriceNumber(total)}<span className="text-sm mr-1">تومان</span>
-                        </div>
-                      </span>
-                      <span>جمع کل</span>
+                  <p className="text-xl text-gray-500 mb-12 mt-6">سبد شما خالی میباشد</p>
+                  <Link href="/product">
+                    <button className="w-60 cursor-pointer  bg-purple-800 hover:bg-blue-600 text-white font-bold py-3 px-4 rounded-lg transition-colors duration-200">
+                      ادامه خرید
+                    </button>
+                  </Link>
+                </div>
+              ) : (
+                // List of Product In The Cart 
+                <div className="flex flex-col md:flex-row gap-8 mr-0 lg:mr-8">
+                  <div className="lg:w-2/3 bg-white rounded-xl shadow-lg p-6">
+                    <h3 className="text-md text-right font-semibold mb-4">لیست محصولات</h3>
+                    <div className="space-y-4">
+                      {(isDataExist && cartItemFiltered) && cartItemFiltered.map(item => (
+                        <CartItemComponent
+                          quantityLoading={item?.productId?._id === quantityChangeLoading}
+                          key={item._id}
+                          item={item}
+                          onUpdateQuantity={updateQuantity}
+                          onRemove={removeItem}
+                        />
+                      ))}
                     </div>
                   </div>
-                </div>
-                <div className='flex flex-col md:flex-row space-y-2 md:space-y-0 justify-between'>
-                  {/* <button
+
+                  {/* SideBar */}
+                  <div className={clsx("lg:w-1/3 space-y-3 right-2 z-30", !isMobileScreen && 'fixed')} >
+                    {isProductExistInTheList && (
+                      <div className="bg-white rounded-xl shadow-lg p-6">
+                        <AddressSelector
+                          isAddressDataExist={isAddressDataExist}
+                          addresses={addressData}
+                          onSubmitAddressForm={submitAddressFormHandler}
+                          selectedAddress={selectedAddress}
+                          onSelectAddress={setSelectedAddress}
+                        />
+
+                      </div>
+                    )}
+                    <div className="bg-white rounded-xl shadow-lg p-6 text-right">
+                      <h3 className="text-md font-semibold mb-4">فاکتور</h3>
+                      <div className="space-y-2 mb-4 text-sm">
+                        <div className="flex justify-between">
+                          <span>
+                            <div dir='rtl' className="flex items-center">
+                              {filterPriceNumber(totalPriceValue)}<span className="text-sm mr-1">تومان</span>
+                            </div>
+                          </span>
+                          <span className=''>جمع کل</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span>
+                            <div dir='rtl' className="flex items-center">
+                              {filterPriceNumber(tax)}<span className="text-sm mr-1">تومان</span>
+                            </div>
+                          </span>
+                          <span className=''> مالیات</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span>
+                            <div dir='rtl' className="flex items-center">
+                              {filterPriceNumber(shippingFee)}<span className="text-sm mr-1">تومان</span>
+                            </div>
+                          </span>
+                          <span className=''>هزینه ارسال</span>
+                        </div>
+                        <div className="border-t pt-2 mt-2">
+                          <div className="flex justify-between font-semibold text-lg text-[#137f3b]">
+                            <span>
+                              <div dir='rtl' className="flex items-center">
+                                {filterPriceNumber(total)}<span className="text-sm mr-1">تومان</span>
+                              </div>
+                            </span>
+                            <span>جمع کل</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div className='flex flex-col md:flex-row space-y-2 md:space-y-0 justify-between'>
+                        {/* <button
                     onClick={continuePaymentHandler}
                     className=" w-full md:w-60 cursor-pointer  bg-purple-800 hover:bg-blue-600 text-white font-bold py-3 px-4 rounded-lg transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                     disabled={(!selectedAddress && isProductExistInTheList)}
                   >
                     ادامه خرید
                   </button> */}
-                  <LoadingButton onClick={continuePaymentHandler}  isLoading={submitCartToCreateOrderMutation.isPending} disabled={(!selectedAddress && isProductExistInTheList)} >
-                    ادامه خرید
-                  </LoadingButton>
-                  <button
-                    className="w-full md:w-32 cursor-pointer bg-red-500 hover:bg-red-400 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-200"
-                  >
-                    بازگشت
-                  </button>
+                        <LoadingButton onClick={continuePaymentHandler} isLoading={submitCartIsLoading} disabled={(!selectedAddress && isProductExistInTheList)} >
+                          ادامه خرید
+                        </LoadingButton>
+                        <button
+                          className="w-full md:w-32 cursor-pointer bg-red-500 hover:bg-red-400 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-200"
+                        >
+                          بازگشت
+                        </button>
+                      </div>
+                      {(!selectedAddress && isProductExistInTheList) && (
+                        <p className="text-xs text-red-500 mt-4">
+                          لطفا یک آدرس انتخاب کنید
+                        </p>
+                      )}
+                    </div>
+                  </div>
                 </div>
-                {(!selectedAddress && isProductExistInTheList) && (
-                  <p className="text-xs text-red-500 mt-4">
-                    لطفا یک آدرس انتخاب کنید
-                  </p>
-                )}
-              </div>
-            </div>
-          </div>
-        )}
+              )}
             </>
           ) : (
             <LoadingSpinner />

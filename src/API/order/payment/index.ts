@@ -12,7 +12,7 @@ interface OrderResponse {
   }
 }
 
-async function submitCartToCreateOrder({cartId, shippingAddress}: {cartId: string, shippingAddress: string}) {
+async function submitCartToCreateOrder({cartId, shippingAddress}: {cartId: string, shippingAddress?: string}) {
   const options = {
     method: "POST",
     headers: {
@@ -117,7 +117,7 @@ async function submitCartToCreateOrder({cartId, shippingAddress}: {cartId: strin
 // }
 
 
-export async function submitCartToCreateOrderRequest(body: {cartId: string, shippingAddress: string}) {
+export async function submitCartToCreateOrderRequest(body: {cartId: string, shippingAddress?: string}) {
   const data = await submitCartToCreateOrder(body);
   return data;
 }

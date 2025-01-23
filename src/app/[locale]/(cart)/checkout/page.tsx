@@ -3,7 +3,7 @@ const iranCity = require('iran-city');
 
 import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { CircleCheckBig, Ban } from 'lucide-react';
+import { CircleCheckBig, Ban, ShoppingBasket, MapPinHouse } from 'lucide-react';
 
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import clsx from 'clsx';
@@ -169,20 +169,30 @@ const CheckoutPage: React.FC = () => {
 
             <>
 
-              <section className='py-6 px-0 md:px-6'>
-                <div className='text-sm text-right mb-12 text-gray-500'>
+
+              {paymentStatus === 'paid' && (
+                <section className='py-6 px-0 md:px-6'>
+                  <div className='text-sm text-right mb-12 text-gray-500'>
                     <div className='font-semibold'>
-                  {orderStatusMap[data?.data.status].title}
+                      {orderStatusMap[data?.data.status].title}
                     </div>
 
                     <div className='mt-2 text-xs leading-6'>
-                    {orderStatusMap[data?.data.status].describe}
+                      {orderStatusMap[data?.data.status].describe}
                     </div>
-                </div>
-                <OrderStatusSteps orderStatus={orderStatus} />
-              </section>
+                  </div>
+                  <OrderStatusSteps orderStatus={orderStatus} />
+                </section>
+              )}
 
-              <h2 className="text-lg font-semibold text-gray-700 mb-4">سبد خرید</h2>
+
+              <h2 className="text-lg flex font-semibold text-gray-700 mb-4">
+                <span className='ml-2'>
+                  <ShoppingBasket size={25} />
+                </span>
+                سبد خرید
+
+              </h2>
               <table className="w-full border border-gray-200 rounded-md overflow-hidden">
                 <thead>
                   <tr className="bg-gray-100 text-gray-700 text-right text-xs md:text-md">
@@ -224,7 +234,14 @@ const CheckoutPage: React.FC = () => {
         {/* Selected Address Section */}
         {data && selectedAddress && (
           <section className="p-6 border-t border-gray-200 ">
-            <h2 className="text-lg font-semibold text-gray-700 mb-4">آدرس انتخاب شده</h2>
+            <h2 className="text-lg flex font-semibold text-gray-700 mb-4">
+              <span className='ml-2'>
+                <MapPinHouse size={25} />
+              </span>
+
+              آدرس انتخاب شده
+
+            </h2>
             <div className="p-4 text-xs bg-gray-50 border leading-7 border-gray-200 rounded-md text-gray-600">
               <div className='text-xs mb-2 font-semibold'>
                 {`${findCityName(selectedAddress?.billingAddress.state).name} - ${findCityName(selectedAddress?.billingAddress.state).province_name}`}
