@@ -1,5 +1,8 @@
 import { AppConfig } from './AppConfig';
 
+
+const PROJECT_NAME = process.env.NEXT_PUBLIC_PROJECT_NAME ||  'sepah';
+
 export const getBaseUrl = () => {
   if (process.env.NEXT_PUBLIC_APP_URL) {
     return process.env.NEXT_PUBLIC_APP_URL;
@@ -40,8 +43,17 @@ export const filterPriceNumber = (priceNumber: number) => {
   return priceNumber.toLocaleString('fa-IR')
 }
 
+export const toPersianDigits = (number: string) => {
+  const persianDigits = "۰۱۲۳۴۵۶۷۸۹"; // Persian numbers
+  return number.replace(/\d/g, (d) => persianDigits[d]); // Replace each digit
+};
 
-export const storeAuthToken = (tokens: {access: {token: string}, refresh: {token: string}}) => { 
-  localStorage.setItem('access', tokens.access.token);
-  localStorage.setItem('refresh', tokens.refresh.token);
+
+
+export const storeAuthToken = (tokens: {access: {token: string}, refresh: {token: string}}, userDoc: any) => { 
+  localStorage.setItem(`${PROJECT_NAME}-access`, tokens.access.token);
+  localStorage.setItem(`${PROJECT_NAME}-refresh`, tokens.refresh.token);
+  localStorage.setItem(`${PROJECT_NAME}-lastLogin`, Date.now().toString());
+  localStorage.setItem(`${PROJECT_NAME}-isAuthenticated`, 'true');
+  localStorage.setItem(`${PROJECT_NAME}-user`, JSON.stringify(userDoc));
  }
