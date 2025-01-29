@@ -39,3 +39,9 @@ export const isEmpty = function(string: string | null) {
 export const filterPriceNumber = (priceNumber: number) => {
   return priceNumber.toLocaleString('fa-IR')
 }
+
+
+export const storeAuthToken = (tokens: {access: {token: string}, refresh: {token: string}}) => { 
+  localStorage.setItem('access', tokens.access.token);
+  localStorage.setItem('refresh', tokens.refresh.token);
+ }
