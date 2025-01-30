@@ -1,6 +1,5 @@
 import { LocaleSwitcher } from '@/components/LocaleSwitcher';
 import { BaseTemplate } from '@/templates/BaseTemplate';
-import { SignOutButton } from '@clerk/nextjs';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 
@@ -32,11 +31,11 @@ export default function DashboardLayout(props: { children: React.ReactNode }) {
       rightNav={(
         <>
           <li>
-            <SignOutButton>
+            
               <button className="border-none text-gray-700 hover:text-gray-900" type="button">
                 {t('sign_out')}
               </button>
-            </SignOutButton>
+            
           </li>
 
           <li>
