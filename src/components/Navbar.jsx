@@ -1,19 +1,26 @@
+// @ts-nocheck
 'use client'
 
 import React, { useState, useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-
+import Link from "next/link";
 import { X, Search, ShoppingBasket, Menu, ChevronDown } from 'lucide-react';
+
 
 import { useCartStore } from '@/_store/Cart';
 import { getUserCartRequest } from "@/API/cart";
-import Link from "next/link";
+
+
+import useAuth from "@/hooks/useAuth";
+import UserAvatar from "@/components/UserAvatar";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [productCountBadge, setproductCountBadge] = useState();
+  const [productCountBadge, setproductCountBadge] = useState(0);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
+
+  const { isAuthenticated, user, logout } = useAuth();
 
 
 
@@ -31,6 +38,8 @@ const Navbar = () => {
   useEffect(() => {
     if (data?.cartItem) {
       setproductCountBadge(data?.cartItem?.length || 0);
+    } else if (data?.length === 0) {
+      setproductCountBadge(0);
     } else if (cart) {
       if (Array.isArray(cart) && cart.length !== 0) {
         // @ts-ignore
@@ -96,14 +105,16 @@ const Navbar = () => {
               </button>
 
               <div className="relative inline-flex">
-                <Link href='/cart' alt="go to cart items" >
-                <button
-                  className="bg-purple-800 hover:bg-blue-600 px-4 py-2 rounded text-sm"
-                >
-                  <ShoppingBasket />
-                </button>
+                <Link href='/cart'
+                  // @ts-ignore
+                  alt="go to cart items" >
+                  <button
+                    className="bg-purple-800 hover:bg-blue-600 px-4 py-2 rounded text-sm"
+                  >
+                    <ShoppingBasket />
+                  </button>
                 </Link>
-                {productCountBadge && (
+                {(productCountBadge > 0) && (
                   <span className="absolute top-0.5 right-0.5 grid min-h-[24px] min-w-[24px] translate-x-2/4 -translate-y-2/4 place-items-center rounded-full bg-red-600 py-1 px-1 text-xs text-white">
                     {productCountBadge}
                   </span>
@@ -112,9 +123,20 @@ const Navbar = () => {
               </div>
 
 
-              <button className="bg-purple-800 hover:bg-blue-600 px-4 py-2 rounded text-sm">
-                ورود | ثبت‌نام
-              </button>
+        {isAuthenticated ? (
+          <>
+            <UserAvatar user={user} logOut={logout} />
+          </>
+        ) : (
+          <Link href='/sign-in'>
+            <button className="bg-purple-800 hover:bg-blue-600 px-4 py-2 rounded text-sm">
+              ورود | ثبت‌نام
+            </button>
+          </Link>
+        )}
+
+
+              
             </div>
 
             {/* Right Side: Logo and Menu */}

@@ -18,6 +18,7 @@ interface ProductsResponse {
 
 
 async function getUserCart() {
+  console.log('API_TOKEN', API_TOKEN);
   const options = {
     method: "GET",
     headers: {
