@@ -20,6 +20,8 @@ const useAuth = () => {
     }
   }, []);
 
+
+
   // Function to log in and store data
   const login = (/** @type {{ access: { token: string; }; refresh: { token: string; }; }} */ tokens, /** @type {import("react").SetStateAction<null>} */ userDoc) => {
     localStorage.setItem(`${PROJECT_NAME}-access`, tokens.access.token);

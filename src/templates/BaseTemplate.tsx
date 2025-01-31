@@ -10,18 +10,18 @@ export const BaseTemplate = (props: {
 
   return (
     <div className="w-full px-1 text-gray-700 antialiased">
-      <div className="mx-auto max-w-screen-md">
+      <div className="mx-auto max-w-screen-lg">
         <header className="border-b border-gray-300">
           <div className="pb-8 pt-16">
-            <h1 className="text-3xl font-bold text-gray-900">
+            {/* <h1 className="text-3xl font-bold text-gray-900">
               {AppConfig.name}
-            </h1>
-            <h2 className="text-xl">{t('description')}</h2>
+            </h1> */}
+            {/* <h2 className="text-xl">{t('description')}</h2> */}
           </div>
 
           <div className="flex justify-between">
             <nav>
-              <ul className="flex flex-wrap gap-x-5 text-xl">
+              <ul className="flex flex-wrap gap-x-5 mb-2 text-xl">
                 {props.leftNav}
               </ul>
             </nav>
@@ -37,8 +37,8 @@ export const BaseTemplate = (props: {
         <main>{props.children}</main>
 
         <footer className="border-t border-gray-300 py-8 text-center text-sm">
-          {`© Copyright ${new Date().getFullYear()} ${AppConfig.name}. `}
-          {t.rich('made_with', {
+        
+          {/* {t.rich('made_with', {
             author: () => (
               <a
                 href="https://creativedesignsguru.com"
@@ -47,7 +47,7 @@ export const BaseTemplate = (props: {
                 CreativeDesignsGuru
               </a>
             ),
-          })}
+          })} */}
           {/*
            * PLEASE READ THIS SECTION
            * I'm an indie maker with limited resources and funds, I'll really appreciate if you could have a link to my website.

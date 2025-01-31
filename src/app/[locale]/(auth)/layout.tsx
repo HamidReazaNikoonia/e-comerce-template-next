@@ -23,6 +23,7 @@ export default async function AuthLayout(props: {
   //   afterSignOutUrl = `/${locale}${afterSignOutUrl}`;
   // }
 
+
   return (
     <div
      
