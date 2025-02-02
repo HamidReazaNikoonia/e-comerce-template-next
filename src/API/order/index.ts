@@ -12,6 +12,15 @@ interface OrderResponse {
   }
 }
 
+
+interface Order {
+  id: string
+  product: string
+  date: string
+  total: string
+  status: string
+}
+
 async function getSpecificOrderById({ orderId }: {orderId: string}) {
   const options = {
     method: "GET",
@@ -31,6 +40,24 @@ async function getSpecificOrderById({ orderId }: {orderId: string}) {
     .catch((err) => console.error(err));
 
   return response;
+}
+
+// Fetch all orders
+async function getOrders() {
+  const response = await fetch(`${API_BASE_URL}/order`, {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${API_TOKEN}`,
+    },
+  })
+
+  if (!response.ok) {
+    throw new Error('Failed to fetch orders')
+  }
+
+  return response.json()
 }
 
 
@@ -121,7 +148,10 @@ export async function getSpecificOrderByIdRequest(body: {orderId: string}) {
   return data;
 }
 
-
+export async function getOrdersRequest() {
+  const data = await getOrders();
+  return data;
+}
 
 // export async function getCommentsRequest({page, productId}) {
 //   const data = await getComments(page, productId);

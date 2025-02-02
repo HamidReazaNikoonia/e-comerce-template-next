@@ -14,6 +14,26 @@ interface ProductsResponse {
 }
 
 
+async function getUserProfile({userId}: {userId: string}) {
+  const options = {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${API_TOKEN}`,
+    },
+  };
+
+  const response = fetch(
+    `${API_BASE_URL}/profile/${userId}`,
+    options
+  )
+    .then((response) => response.json())
+    .catch((err) => console.error(err));
+
+  return response;
+}
+
 
 
 async function loginByOTP({mobile, name, family}: {mobile: string, name: string, family: string}) {
@@ -58,6 +78,8 @@ async function validateOTP({userId, otpCode}: {userId: string, otpCode: string})
 }
 
 
+// EXPORT API REQUEST
+
 export async function loginByOTPRequest(body: {mobile: string, name: string, family: string}) {
   const data = await loginByOTP(body);
   return data;
@@ -66,6 +88,11 @@ export async function loginByOTPRequest(body: {mobile: string, name: string, fam
 
 export async function validateOTPRequest(body: {userId: string, otpCode: string}) {
   const data = await validateOTP(body);
+  return data;
+}
+
+export async function getUserProfileRequest(body: {userId: string}) {
+  const data = await getUserProfile(body);
   return data;
 }
 
