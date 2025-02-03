@@ -117,7 +117,7 @@ export default function DashboardLayout({
         </TabsContent>
         <TabsContent value="courses" className="space-y-4">
           <Card>
-            <CardHeader>
+            <CardHeader dir="rtl">
               <CardTitle>دوره‌ها</CardTitle>
               <CardDescription>لیست دوره‌های شما</CardDescription>
             </CardHeader>
