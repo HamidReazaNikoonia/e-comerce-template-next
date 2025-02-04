@@ -57,3 +57,15 @@ export const storeAuthToken = (tokens: {access: {token: string}, refresh: {token
   localStorage.setItem(`${PROJECT_NAME}-isAuthenticated`, 'true');
   localStorage.setItem(`${PROJECT_NAME}-user`, JSON.stringify(userDoc));
  }
+
+
+ export const formatDuration = (minutes: number): string => {
+  const hours = Math.floor(minutes / 60)
+  const remainingMinutes = minutes % 60
+
+  if (hours > 0) {
+    return `${hours}h ${remainingMinutes}m`
+  } else {
+    return `${remainingMinutes}m`
+  }
+}

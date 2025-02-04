@@ -21,6 +21,27 @@ interface CourseResponse {
 }
 
 
+async function getSpecificUserCourse({ courseId }: { courseId: string }) {
+  const options = {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+      Authorization:
+        "Bearer ....",
+    },
+  };
+
+  const response = fetch(
+    `${API_BASE_URL}/course/${courseId}`,
+    options
+  )
+    .then((response) => response.json())
+    .catch((err) => console.error(err));
+
+  return response;
+}
+
+
 async function getCategories() {
   const options = {
     method: "GET",
@@ -119,6 +140,12 @@ export async function getCoursesRequest(params: FilterParams) {
   const data = await getCourses(params);
   return data;
 }
+
+export async function getSpecificUserCourseRequest(body: { courseId: string }) {
+  const data = await getSpecificUserCourse(body);
+  return data;
+}
+
 
 export async function getCategoriesRequest() {
   const data = await getCategories();
