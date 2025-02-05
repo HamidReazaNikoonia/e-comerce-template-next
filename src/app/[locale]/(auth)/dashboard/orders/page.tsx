@@ -76,7 +76,7 @@ export default function OrdersPage() {
   }
 
   return (
-    <Card>
+    <Card className="mx-2 md:mx-8 mb-12">
       <CardHeader>
         <CardTitle dir="rtl">سفارشات</CardTitle>
       </CardHeader>

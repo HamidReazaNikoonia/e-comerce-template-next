@@ -70,9 +70,9 @@ export default function CoursesPage() {
   }
 
   return (
-    <div dir="rtl" className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+    <div dir="rtl" className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 px-2 md:px-8 pb-12">
       {courses?.length > 0 && courses.map((course: ICourseTypes) => (
-        <Card key={course._id} className="flex flex-col">
+        <Card key={course._id} className="flex flex-col p-0">
           <CardHeader>
             <CardTitle>{course.title}</CardTitle>
             <CardDescription>{course.sub_title}</CardDescription>

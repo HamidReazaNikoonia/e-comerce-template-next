@@ -94,7 +94,7 @@ export default function CoursePage() {
   return (
     <div dir="rtl">
       {courseState && (
-        <Card className="max-w-6xl mx-auto">
+        <Card className="w-full max-w-none md:max-w-7xl mx-auto">
           <CardHeader>
             <CardTitle className="text-2xl md:text-3xl">{courseState?.title}</CardTitle>
             <CardDescription className="text-sm  md:text-base mt-2 pb-2">{courseState?.sub_title}</CardDescription>
@@ -202,7 +202,7 @@ export default function CoursePage() {
               </div>
             </div>
           </CardHeader>
-          <CardContent className="mt-8">
+          <CardContent className="mt-8 p-2 md:p-4">
 
                   <ShowSubjectCourse course_objects={courseState?.course_objects} />
           </CardContent>

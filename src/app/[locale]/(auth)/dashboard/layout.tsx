@@ -98,39 +98,39 @@ export default function DashboardLayout({
           </TabsTrigger>
         </TabsList>
         <TabsContent value="overview" className="space-y-4">
-          <Card>
+          <Card className="p-1">
             <CardHeader dir="rtl">
               <CardTitle className="mb-2">پنل کاربری</CardTitle>
               <CardDescription>خلاصه‌ای از حساب کاربری شما</CardDescription>
             </CardHeader>
-            <CardContent className="pr-2">{children}</CardContent>
+            <CardContent className="p-1">{children}</CardContent>
           </Card>
         </TabsContent>
         <TabsContent value="orders" className="space-y-4">
-          <Card>
+          <Card className="p-1">
             <CardHeader dir="rtl">
               <CardTitle>سفارشات</CardTitle>
               <CardDescription>لیست سفارشات شما</CardDescription>
             </CardHeader>
-            <CardContent className="pr-2">{children}</CardContent>
+            <CardContent className="p-1">{children}</CardContent>
           </Card>
         </TabsContent>
-        <TabsContent value="courses" className="space-y-4">
-          <Card>
+        <TabsContent value="courses"  className="space-y-4">
+          <Card className="p-1">
             <CardHeader dir="rtl">
               <CardTitle>دوره‌ها</CardTitle>
               <CardDescription>لیست دوره‌های شما</CardDescription>
             </CardHeader>
-            <CardContent className="pr-2">{children}</CardContent>
+            <CardContent className="p-1">{children}</CardContent>
           </Card>
         </TabsContent>
         <TabsContent value="favorites" className="space-y-4">
-          <Card>
+          <Card className="p-1">
             <CardHeader>
               <CardTitle>علاقه‌مندی‌ها</CardTitle>
               <CardDescription>لیست محصولات و دوره‌های مورد علاقه شما</CardDescription>
             </CardHeader>
-            <CardContent className="pr-2">{children}</CardContent>
+            <CardContent className="p-1">{children}</CardContent>
           </Card>
         </TabsContent>
       </Tabs>

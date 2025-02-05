@@ -127,7 +127,7 @@ export default function OrderPage() {
   return (
     <div>
       {/* Order Details Section */}
-      <div dir="rtl" className="w-full max-w-4xl bg-white shadow-lg rounded-lg overflow-hidden">
+      <div dir="rtl" className="w-full mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
 
         <div className="mb-4" dir="ltr">
         <Link href='/dashboard/orders' >
