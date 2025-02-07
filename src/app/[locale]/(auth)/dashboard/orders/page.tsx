@@ -68,7 +68,7 @@ export default function OrdersPage() {
         </CardHeader>
         <CardContent>
           <div className="text-center py-4 text-red-500">
-            خطا در دریافت اطلاعات: {error.message}
+            خطا در دریافت اطلاعات: {error?.message}
           </div>
         </CardContent>
       </Card>

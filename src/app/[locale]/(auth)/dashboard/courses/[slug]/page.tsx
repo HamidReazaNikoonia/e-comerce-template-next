@@ -85,10 +85,12 @@ export default function CoursePage() {
 
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center min-h-screen">
-        <LoadingSpinner />
-      </div>
-    );
+      <Card>
+        <CardContent>
+          <div dir="rtl" className=" text-right py-4" >در حال دریافت اطلاعات</div>
+        </CardContent>
+      </Card>
+    )
   }
 
   return (

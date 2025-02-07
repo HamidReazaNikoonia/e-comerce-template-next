@@ -24,14 +24,14 @@ const favorites = [
 
 export default function FavoritesPage() {
   return (
-    <Card>
+    <Card dir="rtl">
       <CardHeader>
         <CardTitle>علاقه‌مندی‌های شما</CardTitle>
         <CardDescription>لیست محصولات و دوره‌های مورد علاقه شما</CardDescription>
       </CardHeader>
       <CardContent>
         <div className="overflow-x-auto">
-          <Table>
+          {/* <Table>
             <TableHeader>
               <TableRow>
                 <TableHead className="w-[100px]">نام</TableHead>
@@ -48,7 +48,7 @@ export default function FavoritesPage() {
                 </TableRow>
               ))}
             </TableBody>
-          </Table>
+          </Table> */}
         </div>
       </CardContent>
     </Card>

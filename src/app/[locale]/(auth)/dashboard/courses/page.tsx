@@ -9,7 +9,7 @@ import { ICourseTypes } from "@/types/Course";
 
 // API
 import {getUserProfileRequest} from "@/API/auth";
-import LoadingSpinner from "@/components/LoadingSpiner";
+
 
 // const courses = [
 //   {
@@ -32,7 +32,7 @@ import LoadingSpinner from "@/components/LoadingSpiner";
 //   },
 // ]
 
-const isClient = typeof window !== 'undefined';
+// const isClient = typeof window !== 'undefined';
 
 export default function CoursesPage() {
 
@@ -61,13 +61,35 @@ export default function CoursesPage() {
   }, [profileIsSuccess, profileData])
 
 
+
   if (profileIsLoading) {
     return (
-      <div className="flex justify-center items-center min-h-screen">
-        <LoadingSpinner />
-      </div>
-    );
+      <Card>
+        <CardHeader>
+          <CardTitle>سفارشات</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="text-center py-4">در حال دریافت اطلاعات...</div>
+        </CardContent>
+      </Card>
+    )
   }
+
+  if (profileIsError) {
+    return (
+      <Card>
+        <CardHeader>
+          <CardTitle>سفارشات</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="text-center py-4 text-red-500">
+            خطا در دریافت اطلاعات: {profileError?.message}
+          </div>
+        </CardContent>
+      </Card>
+    )
+  }
+
 
   return (
     <div dir="rtl" className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 px-2 md:px-8 pb-12">

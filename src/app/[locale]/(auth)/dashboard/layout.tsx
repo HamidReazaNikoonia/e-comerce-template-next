@@ -2,13 +2,13 @@
 
 import Link from "next/link"
 import type React from "react"
-import { LogOut } from 'lucide-react';
+import { LogOut, House } from 'lucide-react';
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import LoadingSpinner from '@/components/LoadingSpiner';
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import useAuth from "@/hooks/useAuth";
 
@@ -27,13 +27,14 @@ export default function DashboardLayout({
 }) {
 
 
-
+  const pathname = usePathname();
   const router = useRouter();
 
 
   const { user } = useAuth();
 
   const [isLoading, setIsLoading] = useState(true); // Add a loading state
+
 
   // Redirect to login page if the user is not authenticated
   useEffect(() => {
@@ -50,6 +51,20 @@ export default function DashboardLayout({
     }
   }, [router]);
 
+
+
+  // Extract the tab name from the URL
+  const getDefaultTab = () => {
+    if (pathname === '/dashboard' || pathname === '/dashboard/overview') {
+      return 'overview';
+    } else  {
+      return pathname.match(/\/([^\/]+)\/?$/)?.[1];
+    }
+    // Add more conditions for other tabs if needed
+  };
+
+  const defaultTab = getDefaultTab();
+
   // Show a loading spinner or nothing while checking authentication
   if (isLoading) {
     return (
@@ -61,18 +76,27 @@ export default function DashboardLayout({
 
 
   console.log('user', user);
+  console.log('defaultTab', defaultTab);
+
 
   return (
     <div className="flex-1 space-y-4 p-4 md:p-8 pt-6">
       <div className="flex flex-col space-y-2 md:flex-row md:items-center md:justify-between">
         <div className="flex items-center space-x-2">
-          <Button size="sm" className="w-full flex md:w-auto">
+          <Button variant="destructive" size="sm" className="w-full flex md:w-auto">
             <span>خروج</span>
             <LogOut size={18} />
           </Button>
+
+          <Link href="/">
+          <Button variant="ghost" size="sm" className="w-full flex md:w-auto">
+            <span>بازگشت به خانه</span>
+            <House size={18} />
+          </Button>
+          </Link>
         </div>
 
-        <h2 className="text-sm md:text-xl text-gray-700 font-bold tracking-tight">
+        <h2 className="text-sm md:text-xl pt-4 md:pt-0 text-gray-700 font-bold tracking-tight">
           <span> پنل کاربری : </span>
           <span className="text-primary-500"> {user?.first_name} </span>
           <span className="text-primary-500"> {user?.last_name} </span>
@@ -80,7 +104,7 @@ export default function DashboardLayout({
         </h2>
 
       </div>
-      <Tabs defaultValue="overview" className="space-y-4 justify-center">
+      <Tabs defaultValue={defaultTab} className="space-y-4 justify-center">
         <TabsList className="w-full overflow-x-auto justify-center">
           <TabsTrigger value="favorites" className="flex-shrink-0">
             <Link href="/dashboard/favorites">علاقه‌مندی‌ها</Link>
@@ -126,7 +150,7 @@ export default function DashboardLayout({
         </TabsContent>
         <TabsContent value="favorites" className="space-y-4">
           <Card className="p-1">
-            <CardHeader>
+            <CardHeader dir="rtl">
               <CardTitle>علاقه‌مندی‌ها</CardTitle>
               <CardDescription>لیست محصولات و دوره‌های مورد علاقه شما</CardDescription>
             </CardHeader>
